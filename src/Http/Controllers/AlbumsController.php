@@ -109,7 +109,7 @@ class AlbumsController extends AdminController
                     $grid = new Grid(new Photo);
                     $grid->column('path')->image('/storage/gallery/' . $id, 100, 100);
                     $grid->column('caption');
-                    $column->append(new Box('New Item', $grid->render()));
+                    $column->append(new Box('Photos', $grid->render()));
                 });
 
                 $row->column(5, function (Column $column) use ($id) {
