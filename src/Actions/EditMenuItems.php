@@ -13,6 +13,6 @@ class EditMenuItems extends RowAction
     public function href()
     {
         // admin_route emawni hman tur
-        return '/admin/menus/' . $this->getKey() . '/items';
+        return admin_url('menus/' . $this->getKey() . '/items');
     }
 }
