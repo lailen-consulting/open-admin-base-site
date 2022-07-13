@@ -19,6 +19,13 @@ use OpenAdmin\Admin\Widgets\Box;
 
 class MenusController extends AdminController
 {
+    /**
+     * Title for current resource.
+     *
+     * @var string
+     */
+    protected $title = 'Menus';
+    
     public function __construct()
     {
         $this->hook("alterForm", function ($scope, $form) {
