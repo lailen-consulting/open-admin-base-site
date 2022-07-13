@@ -1,6 +1,6 @@
 {
     "name": "lailen/site",
-    "description": "description...",
+    "description": "Simple basic Open admin extension for building websites",
     "type": "library",
     "keywords": ["open-admin", "extension"],
     "homepage": "https://github.com/lailen/site",
