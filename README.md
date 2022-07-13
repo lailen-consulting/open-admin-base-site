@@ -2,16 +2,11 @@ Base site extension for open-admin
 
 [https://open-admin.org/](https://open-admin.org/)
 
+Requirements: 
 
+- Install [CKEditor open admin extension](https://open-admin.org/docs/en/extension-ckeditor) for page editor
 
-- add to composer.json
-
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/lailen-consulting/open-admin-base-site"
-        }
-    ],
+After installing CKEditor
 
 - `composer require lailen/site`
 
