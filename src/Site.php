@@ -23,14 +23,19 @@ class Site extends Extension
                 'icon'  => 'icon-bars',
             ],
             [
-                'title' => 'Posts',
-                'path'  => 'posts',
-                'icon'  => 'icon-file-alt',
-            ],
-            [
                 'title' => 'Pages',
                 'path'  => 'pages',
                 'icon'  => 'icon-file',
+            ],
+            [
+                'title' => 'Gallery',
+                'path'  => 'albums',
+                'icon'  => 'icon-images',
+            ],
+            [
+                'title' => 'Posts',
+                'path'  => 'posts',
+                'icon'  => 'icon-file-alt',
             ],
             [
                 'title' => 'Tags',
