@@ -1,0 +1,33 @@
+{
+    "name": "lailen/site",
+    "description": "description...",
+    "type": "library",
+    "keywords": ["open-admin", "extension"],
+    "homepage": "https://github.com/lailen/site",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "your name",
+            "email": "your email"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "open-admin-org/open-admin": "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lailen\\OpenAdmin\\Site\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lailen\\OpenAdmin\\Site\\SiteServiceProvider"
+            ]
+        }
+    }
+}
