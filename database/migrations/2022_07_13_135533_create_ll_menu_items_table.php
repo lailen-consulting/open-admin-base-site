@@ -20,7 +20,9 @@ return new class extends Migration
             $table->string('target')->nullable();
             $table->unsignedBigInteger('menu_id');
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->integer('order');
+            $table->string('image_path')->nullable();
+            $table->string('description')->nullable();
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }
