@@ -9,6 +9,7 @@ use OpenAdmin\Admin\Show;
 use Lailen\OpenAdmin\Site\Models\Page;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use OpenAdmin\Admin\Auth\Database\Administrator;
 
 class PagesController extends AdminController
 {
@@ -18,18 +19,6 @@ class PagesController extends AdminController
      * @var string
      */
     protected $title = 'Page';
-
-    public function __construct()
-    {
-        $this->hook("alterForm", function ($scope, $form) {
-            $form->saving(function (Form $form){
-                $model = $form->model();
-                $model->user_id = Auth::user()->id;
-                $model->slug = Str::slug($form->input('title'));
-            });
-            return $form;
-        });
-    }
 
     /**
      * Make a grid builder.
@@ -42,14 +31,10 @@ class PagesController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('title', __('Title'));
-        $grid->column('slug', __('Slug'));
-        $grid->column('excerpt', __('Excerpt'));
-        $grid->column('content', __('Content'));
         $grid->column('user.name', __('Author'));
         $grid->column('published_at', __('Published at'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
-        $grid->column('deleted_at', __('Deleted at'));
 
         return $grid;
     }
@@ -91,7 +76,17 @@ class PagesController extends AdminController
         $form->textarea('excerpt', __('Excerpt'));
         $form->ckeditor('content', __('Content'));
         $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
+        $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));
 
+        $form->saving(function (Form $form){
+            if (!isset($form->user_id)) {
+                $form->user_id = Auth::user()->id;
+            }
+
+            $model = $form->model();
+            $model->slug = Str::slug($form->input('title'));
+        });
+        return $form;
         return $form;
     }
 }
