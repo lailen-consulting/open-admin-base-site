@@ -25,7 +25,7 @@ class MenusController extends AdminController
      * @var string
      */
     protected $title = 'Menus';
-    
+
     public function __construct()
     {
         $this->hook("alterForm", function ($scope, $form) {
@@ -111,6 +111,8 @@ class MenusController extends AdminController
                     $form->select('parent_id', trans('admin.parent_id'))->options($menuModel::selectOptions());
                     $form->text('title', 'Title')->rules('required');
                     $form->text('link', 'Link');
+                    $form->textarea('description', 'Description');
+                    $form->image('image_path', 'Image');
                     $form->hidden('_token')->default(csrf_token());
 
                     $column->append((new Box('New Item', $form))->style('success'));
@@ -127,6 +129,8 @@ class MenusController extends AdminController
         $form->select('parent_id', trans('admin.parent_id'))->options($menuModel::selectOptions())->value($menuItem->parent_id);
         $form->text('title', 'Title')->rules('required')->value($menuItem->title);
         $form->text('link', 'Link')->value($menuItem->link);
+        $form->textarea('description', 'Description')->value($menuItem->description);
+        $form->image('image_path', 'Image')->value($menuItem->image_path);
         $form->hidden('_token')->default(csrf_token());
         $form->hidden('_method')->default('PUT');
 
@@ -151,6 +155,16 @@ class MenusController extends AdminController
         $data = $request->all();
         $data['menu_id'] = $menu->id;
         $data['order'] = $menu->items()->count() + 1;
+
+        if($request->file('image_path')) {
+            $image = $request->file('image');
+            $id = $menu->id;
+            $path = Str::random();
+            $ext = $image->getExtension();
+            $image->move(storage_path('app/public/menu-items/' . $id), $path . '.' . $ext);
+            $data['image_path'] = 'storage/menu-items/' . $id . '/' . $path . '.' . $ext;
+        }
+
         MenuItem::create($data);
 
         return redirect(admin_url('menus/' . $menu->id . '/items'));
