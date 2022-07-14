@@ -50,7 +50,8 @@ class PostsController extends AdminController
         $show = new Show(Post::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('name', __('Name'));
+        $show->field('title', __('Title'));
+        $show->field('published_at', __('Published at'));
         $show->field('slug', __('Slug'));
         $show->field('excerpt', __('Excerpt'));
         $show->field('content', __('Content'));
@@ -77,15 +78,15 @@ class PostsController extends AdminController
         $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));
         $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
 
-        $form->submitted(function (Form $form){
+        $form->saving(function (Form $form){
             if (!isset($form->user_id)) {
                 $form->user_id = Auth::user()->id;
             }
             $model = $form->model();
+            $model->slug = Str::slug($form->input('title'));
             if (!isset($model->published_at)) {
                 $model->published_at = now();
             }
-            $model->slug = Str::slug($form->input('title'));
         });
 
         return $form;
