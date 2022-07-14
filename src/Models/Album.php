@@ -9,6 +9,10 @@ class Album extends Model
 {
     protected $table = 'll_gallery_albums';
 
+    protected $casts = [
+        'time' => 'date'
+    ];
+
     public function user()
     {
         return $this->belongsTo(Administrator::class, 'user_id');

@@ -12,6 +12,10 @@ class Post extends Model
 
     protected $table = 'll_posts';
 
+    protected $casts = [
+        'published_at' => 'date'
+    ];
+
     public function user()
     {
         return $this->belongsTo(Administrator::class, 'user_id');

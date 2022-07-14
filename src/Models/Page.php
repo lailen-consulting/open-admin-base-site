@@ -9,6 +9,10 @@ class Page extends Model
 {
     protected $table = 'll_pages';
 
+    protected $casts = [
+        'published_at' => 'date'
+    ];
+
     public function user()
     {
         return $this->belongsTo(Administrator::class, 'user_id');
