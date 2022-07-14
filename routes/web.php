@@ -5,6 +5,7 @@ use Lailen\OpenAdmin\Site\Http\Controllers\AlbumsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\MenusController;
 use Lailen\OpenAdmin\Site\Http\Controllers\PagesController;
 use Lailen\OpenAdmin\Site\Http\Controllers\PostCategoriesController;
+use Lailen\OpenAdmin\Site\Http\Controllers\PostsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\PostTagsController;
 
 /**
@@ -18,7 +19,7 @@ Route::put('menus/{menu}/items/{menuItem}/update-item', [MenusController::class,
 Route::resource('menus', MenusController::class);
 
 Route::resource('/pages', PagesController::class);
-Route::resource('/posts', PostCategoriesController::class);
+Route::resource('/posts', PostsController::class);
 Route::resource('/post-categories', PostCategoriesController::class);
 Route::resource('/post-tags', PostTagsController::class);
 

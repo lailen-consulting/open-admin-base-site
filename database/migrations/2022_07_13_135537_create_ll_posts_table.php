@@ -15,9 +15,12 @@ return new class extends Migration
     {
         Schema::create('ll_posts', function (Blueprint $table) {
             $table->id('id');
-            $table->string('name');
+            $table->string('title');
             $table->string('slug');
-            $table->string('image')->nullable();
+            $table->string('excerpt');
+            $table->longText('content');
+            $table->unsignedBigInteger('user_id');
+            $table->dateTime('published_at');
             $table->timestamps();
             $table->softDeletes();
         });
