@@ -32,7 +32,6 @@ class PostsController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('title', __('Title'));
         $grid->column('user.name', __('Author'));
-        $grid->column('excerpt', __('Excerpt'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
