@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ll_post_tags', function (Blueprint $table) {
+        Schema::create('ll_tags', function (Blueprint $table) {
             $table->id('id');
             $table->string('name');
             $table->timestamps();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ll_post_tags');
+        Schema::dropIfExists('ll_tags');
     }
 };

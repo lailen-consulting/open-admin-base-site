@@ -9,5 +9,5 @@ class PostTag extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'll_post_tags';
+    protected $table = 'll_tags';
 }

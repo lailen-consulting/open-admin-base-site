@@ -9,5 +9,5 @@ class PostCategory extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'll_post_categories';
+    protected $table = 'll_categories';
 }

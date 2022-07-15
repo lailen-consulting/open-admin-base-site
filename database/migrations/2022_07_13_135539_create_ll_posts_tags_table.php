@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ll_categories', function (Blueprint $table) {
-            $table->id('id');
-            $table->string('name');
-            $table->string('slug');
-            $table->string('image')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::create('ll_posts_tags', function (Blueprint $table) {
+            $table->foreignId('post_id');
+            $table->foreignId('tag_id');
         });
     }
 
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ll_categories');
+        Schema::dropIfExists('ll_posts_tags');
     }
 };
