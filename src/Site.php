@@ -63,7 +63,7 @@ class Site extends Extension
         }
 
         Artisan::call('admin:import', ['extension' => 'config']);
-        Artisan::call('vendor:publish', ['tag' => 'open-admin-ckeditor']);
+        Artisan::call('vendor:publish', ['--tag' => 'open-admin-ckeditor']);
 
         Artisan::call('migrate');
 
