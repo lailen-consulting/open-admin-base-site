@@ -19,18 +19,8 @@ class SiteServiceProvider extends ServiceProvider
             $this->loadViewsFrom($views, 'site');
         }
 
-        if ($this->app->runningInConsole() && $assets = $extension->assets()) {
-            $this->publishes(
-                [$assets => public_path('vendor/lailen/site')],
-                'site'
-            );
-        }
-
         if ($this->app->runningInConsole()) {
-            $this->publishes(
-                [__DIR__.'/../database/migrations' => database_path('migrations')],
-                'lailen-site'
-            );
+            $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         }
 
 
