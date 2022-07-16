@@ -55,7 +55,7 @@ class PostsController extends AdminController
         $show->field('published_at', __('Published at'));
         $show->field('slug', __('Slug'));
         $show->field('excerpt', __('Excerpt'));
-        $show->field('image_path', __('Image'))->image('/storage/admin/', 200, 200);
+        $show->field('image', __('Image'))->image('/storage/admin/', 200, 200);
         $show->field('content', __('Content'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
@@ -75,9 +75,9 @@ class PostsController extends AdminController
 
         $form->text('title', __('Title'))->required();
         // $form->text('slug', __('Slug'));
-        $form->textarea('excerpt', __('Excerpt'));
+        $form->textarea('excerpt', __('Excerpt'))->rules('max:100');
         $form->ckeditor('content', __('Content'))->required();
-        $form->image('image_path', __('Image'))->thumbnail([
+        $form->image('image', __('Image'))->thumbnail([
             'small' => [250, null],
             'medium' => [500, null],
             'full' => [800, null],

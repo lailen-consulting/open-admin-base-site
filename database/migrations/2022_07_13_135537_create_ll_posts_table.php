@@ -21,7 +21,7 @@ return new class extends Migration
             $table->longText('content');
             $table->unsignedBigInteger('user_id');
             $table->dateTime('published_at');
-            $table->string('image_path')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
