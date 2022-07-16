@@ -54,6 +54,7 @@ class PagesController extends AdminController
         $show->field('slug', __('Slug'));
         $show->field('excerpt', __('Excerpt'));
         $show->field('content', __('Content'));
+        $show->field('image', __('Image'))->image('/storage/admin/', 200, 200);
         $show->field('user_id', __('User id'));
         $show->field('published_at', __('Published at'));
         $show->field('created_at', __('Created at'));
@@ -72,11 +73,16 @@ class PagesController extends AdminController
     {
         $form = new Form(new Page());
 
-        $form->text('title', __('Title'));
-        $form->textarea('excerpt', __('Excerpt'));
-        $form->ckeditor('content', __('Content'));
+        $form->text('title', __('Title'))->required();
+        $form->textarea('excerpt', __('Excerpt'))->rules('max:100', ['max' => 'Excerpt should be less than 100 characters']);
+        $form->ckeditor('content', __('Content'))->rules('required', ['required' => 'Content is required']);
         $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
         $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));
+        $form->image('image', __('Image'))->thumbnail([
+            'small' => [250, null],
+            'medium' => [500, null],
+            'full' => [800, null],
+        ]);
 
         $form->saving(function (Form $form){
             if (!isset($form->user_id)) {

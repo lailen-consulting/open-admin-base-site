@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('excerpt')->nullable();
             $table->longText('content');
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->dateTime('published_at');
             $table->timestamps();
