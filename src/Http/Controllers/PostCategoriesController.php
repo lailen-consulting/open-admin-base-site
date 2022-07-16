@@ -16,7 +16,7 @@ class PostCategoriesController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Post Categories';
+    protected $title = 'Categories';
 
     public function __construct()
     {

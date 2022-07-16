@@ -16,7 +16,7 @@ class PostTagsController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Post Tags';
+    protected $title = 'Tags';
 
     // public function __construct()
     // {
