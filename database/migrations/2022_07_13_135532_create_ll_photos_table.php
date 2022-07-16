@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('ll_gallery_photos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('album_id');
-            $table->longText('path');
+            $table->longText('image');
             $table->string('caption')->nullable();
             $table->timestamps();
             $table->softDeletes();

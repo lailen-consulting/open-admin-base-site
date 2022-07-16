@@ -101,43 +101,74 @@ class AlbumsController extends AdminController
 
     public function photos($id, Content $content)
     {
+        $grid = new Grid(new Photo);
         return $content
-            ->title('Photos')
-            ->description('Add/Edit Photos')
-            ->row(function (Row $row) use ($id) {
-                $row->column(7, function(Column $column) use ($id) {
-                    $grid = new Grid(new Photo);
-                    $grid->column('path')->image('/storage/gallery/' . $id, 100, 100);
-                    $grid->column('caption');
-                    $column->append(new Box('Photos', $grid->render()));
-                });
+            ->title($this->title())
+            ->description($this->description['index'] ?? trans('admin.list'))
+            ->body($grid);
+        // return $content
+        //     ->title('Photos')
+        //     ->description('Add/Edit Photos')
+        //     ->row(function (Row $row) use ($id) {
+        //         $row->column(7, function(Column $column) use ($id) {
+        //             $grid = new Grid(new Photo);
+        //             $grid->column('path')->image('/storage/gallery/' . $id, 100, 100);
+        //             $grid->column('caption');
+        //             $column->append(new Box('Photos', $grid->render()));
+        //         });
 
-                $row->column(5, function (Column $column) use ($id) {
-                    $form = new \OpenAdmin\Admin\Widgets\Form();
-                    $form->action(admin_url('albums/' . $id . '/photos'));
-
-                    $form->textarea('caption', 'Caption');
-                    $form->image('image', 'Image')->rules('required');
-                    $form->hidden('_token')->default(csrf_token());
-
-                    $column->append((new Box('New Item', $form))->style('success'));
-                });
-            });
+        //         // $row->column(5, function (Column $column) use ($id) {
+        //         //     $this->getPhotoForm($id);
+        //         //     $column->append((new Box('New Item', $this->getPhotoForm($id)))->style('success'));
+        //         // });
+        //     });
     }
 
-    public function storePhoto($id, Request $request)
+    public function getPhotoForm($albumId)
     {
-        $path = Str::random(16);
-        $image = $request->file('image');
-        $image->move(storage_path('app/public/gallery/' . $id), $path . '.jpg');
+        $form = new \OpenAdmin\Admin\Widgets\Form();
+        $form->action(admin_url('albums/' . $albumId . '/photos'));
+
+        $form->textarea('caption', 'Caption');
+        $form->image('image', 'Image')
+            ->rules('required')
+            ->thumbnail([
+                'small' => [250, null],
+                'medium' => [500, null],
+                'full' => [800, null],
+            ]);
+
+        return $form;
+    }
+
+    public function storePhoto($albumId)
+    {
+        return $this->getPhotoForm($albumId)->store();
+        // $path = Str::random(16);
+        // $image = $request->file('image');
+        // $image->move(storage_path('app/public/gallery/' . $id), $path . '.jpg');
 
 
-        Photo::create([
-            'album_id' => $id,
-            'caption' => $request->input('caption'),
-            'path' => $path . '.jpg',
-        ]);
+        // Photo::create([
+        //     'album_id' => $id,
+        //     'caption' => $request->input('caption'),
+        //     'path' => $path . '.jpg',
+        // ]);
 
-        return redirect(admin_url('albums/' . $id . '/photos'));
+        // return redirect(admin_url('albums/' . $id . '/photos'));
+    }
+
+    public function createPhoto($albumId, Content $content)
+    {
+        $form = $this->getPhotoForm($albumId);
+
+        if ($this->hasHooks('alterForm')) {
+            $form = $this->callHooks('alterForm', $form);
+        }
+
+        return $content
+            ->title('Photo')
+            ->description($this->description['create'] ?? trans('admin.create'))
+            ->body($form);
     }
 }
