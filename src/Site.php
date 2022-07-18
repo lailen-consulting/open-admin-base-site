@@ -2,11 +2,7 @@
 
 namespace Lailen\OpenAdmin\Site;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 use OpenAdmin\Admin\Auth\Database\Menu;
 use OpenAdmin\Admin\Extension;
 
