@@ -104,17 +104,8 @@ class MenusController extends AdminController
                 $row->column(6, $this->treeView()->render());
 
                 $row->column(6, function (Column $column) use ($id) {
-                    $form = new \OpenAdmin\Admin\Widgets\Form();
-                    $form->action(admin_url('menus/' . $id . '/store-item'));
-
-                    $menuModel = MenuItem::class;
-                    $form->select('parent_id', trans('admin.parent_id'))->options($menuModel::selectOptions());
-                    $form->text('title', 'Title')->rules('required');
-                    $form->text('link', 'Link');
-                    $form->textarea('description', 'Description');
-                    $form->image('image_path', 'Image');
-                    $form->hidden('_token')->default(csrf_token());
-
+                    $form = $this->getMenuItemForm();
+                    $form->action(admin_url('menus/' . $id . '/items'));
                     $column->append((new Box('New Item', $form))->style('success'));
                 });
             });
@@ -122,16 +113,9 @@ class MenusController extends AdminController
 
     public function editItem(Menu $menu, MenuItem $menuItem, Content $content)
     {
-        $form = new \OpenAdmin\Admin\Widgets\Form();
-        $form->action(admin_url('menus/' . $menu->id . '/items/' . $menuItem->id . '/update-item'));
+        $form = $this->getMenuItemForm();
+        $form->action(admin_url('menus/' . $menu->id . '/items/' . $menuItem->id));
 
-        $menuModel = MenuItem::class;
-        $form->select('parent_id', trans('admin.parent_id'))->options($menuModel::selectOptions())->value($menuItem->parent_id);
-        $form->text('title', 'Title')->rules('required')->value($menuItem->title);
-        $form->text('link', 'Link')->value($menuItem->link);
-        $form->textarea('description', 'Description')->value($menuItem->description);
-        $form->image('image_path', 'Image')->value($menuItem->image_path);
-        $form->hidden('_token')->default(csrf_token());
         $form->hidden('_method')->default('PUT');
 
         return $content
@@ -142,30 +126,21 @@ class MenusController extends AdminController
 
     public function updateItem(Menu $menu, MenuItem $menuItem, Request $request)
     {
-        $menuItem->link = $request->input('link');
-        $menuItem->title = $request->input('title');
-        $menuItem->parent_id = $request->input('parent_id');
-        $menuItem->save();
-
-        return redirect(admin_url('menus/' . $menu->id . '/items'));
+        return $this->getMenuItemForm()->update($menuItem->id);
     }
 
     public function storeItem(Menu $menu, Request $request)
     {
-        $data = $request->all();
-        $data['menu_id'] = $menu->id;
-        $data['order'] = $menu->items()->count() + 1;
+        return $this->getMenuItemForm()->store();
+    }
 
-        if($request->file('image_path')) {
-            $image = $request->file('image');
-            $id = $menu->id;
-            $path = Str::random();
-            $ext = $image->getExtension();
-            $image->move(storage_path('app/public/menu-items/' . $id), $path . '.' . $ext);
-            $data['image_path'] = 'storage/menu-items/' . $id . '/' . $path . '.' . $ext;
-        }
-
-        MenuItem::create($data);
+    public function destroyItem(Menu $menu, MenuItem $menuItem)
+    {
+        // dd($menuItem);
+        // dd($menuItem->delete());
+        // dd('asd');
+        // $menuItem->delete();
+        return $this->getMenuItemForm()->destroy($menuItem->id);
 
         return redirect(admin_url('menus/' . $menu->id . '/items'));
     }
@@ -177,6 +152,21 @@ class MenusController extends AdminController
         }
 
         return redirect(admin_url('menus/' . $menu->id . '/items'));
+    }
+
+    protected function getMenuItemForm () {
+        $menuId = request()->route('menu');
+        $form = new Form(new MenuItem());
+
+        $form->select('parent_id', trans('admin.parent_id'))->options(MenuItem::selectOptions());
+        $form->text('title', 'Title')->rules('required');
+        $form->text('link', 'Link');
+        $form->hidden('menu_id', $menuId);
+        $form->textarea('description', 'Description');
+        $form->image('image_path', 'Image');
+        $form->text('icon', 'Icon');
+
+        return $form;
     }
 
     /**
@@ -192,14 +182,7 @@ class MenusController extends AdminController
             $payload = "<strong>{$branch['title']}</strong>";
 
             if (!isset($branch['children'])) {
-                /**
-                 * @todo hei hi ngai kher lo tur
-                 */
-                // if (url()->isValidUrl($branch['link'])) {
                 $link = $branch['link'];
-                // } else {
-                //     $link = admin_url($branch['link']);
-                // }
 
                 $payload .= "&nbsp;&nbsp;&nbsp;<a href=\"$link\" class=\"dd-nodrag\">$link</a>";
             }
