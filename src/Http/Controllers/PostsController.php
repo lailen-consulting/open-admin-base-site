@@ -80,7 +80,7 @@ class PostsController extends AdminController
         $form->image('image', __('Image'))->thumbnail([
             'small' => [250, null],
             'medium' => [500, null],
-            'full' => [800, null],
+            'full' => [1024, null],
         ]);
 
         $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));

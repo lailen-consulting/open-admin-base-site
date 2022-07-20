@@ -81,7 +81,7 @@ class PagesController extends AdminController
         $form->image('image', __('Image'))->thumbnail([
             'small' => [250, null],
             'medium' => [500, null],
-            'full' => [800, null],
+            'full' => [1024, null],
         ]);
 
         $form->saving(function (Form $form){
