@@ -170,30 +170,6 @@ class MenusController extends AdminController
     }
 
     /**
-     * @return \OpenAdmin\Admin\Tree
-     */
-    protected function treeView()
-    {
-        $tree = new Tree(new MenuItem());
-
-        $tree->disableCreate();
-
-        $tree->branch(function ($branch) {
-            $payload = "<strong>{$branch['title']}</strong>";
-
-            if (!isset($branch['children'])) {
-                $link = $branch['link'];
-
-                $payload .= "&nbsp;&nbsp;&nbsp;<a href=\"$link\" class=\"dd-nodrag\">$link</a>";
-            }
-
-            return $payload;
-        });
-
-        return $tree;
-    }
-
-    /**
      * Help message for icon field.
      *
      * @return string
