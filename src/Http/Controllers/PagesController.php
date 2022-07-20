@@ -74,7 +74,7 @@ class PagesController extends AdminController
         $form = new Form(new Page());
 
         $form->text('title', __('Title'))->required();
-        $form->textarea('excerpt', __('Excerpt'))->rules('max:100', ['max' => 'Excerpt should be less than 100 characters']);
+        $form->textarea('excerpt', __('Excerpt'));
         $form->ckeditor('content', __('Content'))->rules('required', ['required' => 'Content is required']);
         $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
         $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));
