@@ -2,7 +2,6 @@
 
 namespace Lailen\OpenAdmin\Site\Http\Controllers;
 
-use Lailen\OpenAdmin\Site\Models\Menu;
 use Lailen\OpenAdmin\Site\Models\MenuItem;
 use OpenAdmin\Admin\Controllers\AdminController;
 use OpenAdmin\Admin\Form;
@@ -127,6 +126,9 @@ class MenuItemsController extends AdminController
     protected function treeView()
     {
         $tree = new Tree(new MenuItem());
+        $tree->query(function($q) {
+            return $q->where('menu_id', request()->route('menu'));
+        });
 
         $tree->disableCreate();
 
