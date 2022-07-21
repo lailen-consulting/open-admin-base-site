@@ -49,6 +49,11 @@ class Site extends Extension
                 'uri'  => 'post-categories',
                 'icon'  => 'icon-file',
             ],
+            [
+                'title' => 'Config',
+                'uri'  => 'configs',
+                'icon'  => 'icon-gears',
+            ],
         ];
 
         foreach ($menus as $menu) {
@@ -58,7 +63,6 @@ class Site extends Extension
             Menu::create($menu);
         }
 
-        Artisan::call('admin:import', ['extension' => 'config']);
         Artisan::call('vendor:publish', ['--tag' => 'open-admin-ckeditor']);
 
         Artisan::call('migrate');
