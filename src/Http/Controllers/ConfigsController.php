@@ -70,7 +70,7 @@ class ConfigsController extends AdminController
 
         $form->text('title', __('Title'))->required();
         $form->text('key', __('Key'));
-        $form->text('value', __('Value'));
+        // $form->text('value', __('Value')); value hi settings UI atanga thun tur
         $form->select('type', __("Type"))->options([
             'text' => 'Text',
             'textarea' => 'Textarea',
