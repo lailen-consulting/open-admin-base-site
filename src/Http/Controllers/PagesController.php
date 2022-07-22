@@ -92,7 +92,7 @@ class PagesController extends AdminController
             $model = $form->model();
             $model->slug = Str::slug($form->input('title'));
         });
-        return $form;
+
         return $form;
     }
 }
