@@ -3,18 +3,12 @@
 namespace Lailen\OpenAdmin\Site\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use OpenAdmin\Admin\Controllers\AdminController;
 use OpenAdmin\Admin\Form;
-use OpenAdmin\Admin\Grid;
-use OpenAdmin\Admin\Show;
-use Illuminate\Support\Str;
 use Lailen\OpenAdmin\Site\Models\Album;
 use Lailen\OpenAdmin\Site\Models\Config;
 use Lailen\OpenAdmin\Site\Models\Menu;
 use Lailen\OpenAdmin\Site\Models\Page;
-use Lailen\OpenAdmin\Site\Models\Post;
-use Lailen\OpenAdmin\Site\Models\PostCategory;
 use OpenAdmin\Admin\Layout\Content;
 
 class SettingsController extends AdminController
@@ -34,7 +28,19 @@ class SettingsController extends AdminController
     public function updateSettings(Request $request)
     {
         foreach($request->all() as $key => $value) {
-            Config::where('key', $key)->update(['value' => $value]);
+            $setting = Config::where('key', $key)->first();
+            if(!$setting) {
+                continue;
+            }
+
+            if ($setting->type == 'file') {
+                $fileName = $key . '.' . $request->file($key)->extension();
+                $request->file($key)->storeAs('settings', $fileName, 'admin');
+                $value = 'settings/' . $fileName;
+            }
+
+            $setting->value = $value;
+            $setting->save();
         }
 
         return redirect('/admin/settings');
@@ -62,6 +68,7 @@ class SettingsController extends AdminController
     {
         $key = $config->key;
         $label = $config->title;
+        $value = $config->value;
 
         $options = null;
 
@@ -72,36 +79,41 @@ class SettingsController extends AdminController
         switch($config->type) {
             case 'single-menu':
                 $items = Menu::all()->pluck('name', 'id');
-                $form->select($key, $label)->options($items)->value($config->value);
+                $form->select($key, $label)->options($items)->value($value);
                 break;
             case 'single-page':
                 $items = Page::all()->pluck('title', 'id');
-                $form->select($key, $label)->options($items)->value($config->value);
+                $form->select($key, $label)->options($items)->value($value);
                 break;
             case 'single-album':
                 $options = Album::all()->pluck('name', 'id');
-                $form->select($key, $label)->options($options)->value($config->value);
+                $form->select($key, $label)->options($options)->value($value);
                 break;
             case 'checkbox':
                 $form->checkbox($key, $label)
                     ->options($options['options'])
                     ->default(isset($options['default']) ? $options['default'] : '')
-                    ->value($config->value);
+                    ->value($value);
                 break;
             case 'radio':
                 $form->radio($key, $label)
                     ->options($options['options'])
                     ->default(isset($options['default']) ? $options['default'] : '')
-                    ->value($config->value);
+                    ->value($value);
                 break;
             case 'select':
                 $form->select($key, $label)
                     ->options($options['options'])
                     ->default(isset($options['default']) ? $options['default'] : '')
-                    ->value($config->value);
+                    ->value($value);
+                break;
+            case 'file':
+                $form->file($key, $label . $value)
+                    ->pick()
+                    ->value($value);
                 break;
             default: {
-                $form->{$config->type}($config->key, $config->title)->value($config->value);
+                $form->{$config->type}($config->key, $config->title)->value($value);
                 break;
             }
         }

@@ -50,9 +50,9 @@ class Site extends Extension
                 'icon'  => 'icon-file',
             ],
             [
-                'title' => 'Config',
-                'uri'  => 'configs',
-                'icon'  => 'icon-gears',
+                'title' => 'Settings',
+                'uri'  => 'settings',
+                'icon'  => 'icon-cog',
             ],
         ];
 
@@ -62,6 +62,16 @@ class Site extends Extension
 
             Menu::create($menu);
         }
+
+        $adminMenuId = Menu::where('title', 'Admin')->first()->id;
+        $adminMenuOrder = Menu::where('parent_id', $adminMenuId)->count() + 1;
+        Menu::create([
+            'title' => 'Settings Configurations',
+            'uri' => 'configs',
+            'icon' => 'icon-cogs',
+            'parent_id' => $adminMenuId,
+            'order' => $adminMenuOrder,
+        ]);
 
         Artisan::call('vendor:publish', ['--tag' => 'open-admin-ckeditor']);
 

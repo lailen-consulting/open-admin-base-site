@@ -10,19 +10,19 @@ Requirements:
 
     'admin' => [
         'driver' => 'local',
-        'root' => storage_path('app/public/admin'),
-        'url' => env('APP_URL').'/storage',
+        'root' => storage_path('app/public/site'),
+        'url' => '/storage',
         'visibility' => 'public',
         'throw' => false,
     ],
 
-    'gallery' => [
-        'driver' => 'local',
-        'root' => storage_path('app/public/gallery'),
-        'url' => env('APP_URL').'/storage/gallery',
-        'visibility' => 'public',
-        'throw' => false,
-    ],
+- AppServiceProvider
+
+-   try {
+        Config::loadAllSettings();
+    } catch (\Throwable $th) {
+        info('migrate phawt ngai a nih maitei');
+    }
 
 - Install [CKEditor open admin extension](https://open-admin.org/docs/en/extension-ckeditor) for page editor
 
@@ -35,3 +35,6 @@ After installing CKEditor
 - `php artisan admin:import`
 
 - `php artisan migrate`
+
+Site Admin User siam. 
+Permission pek

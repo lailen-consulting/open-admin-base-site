@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('key');
-            $table->longText('value');
+            $table->longText('value')->nullable();
             $table->string('type'); // textarea text number etc. input type atan
             $table->longText('options')->nullable();
             $table->timestamps();

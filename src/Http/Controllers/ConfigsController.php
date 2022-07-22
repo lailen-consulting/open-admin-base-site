@@ -82,7 +82,7 @@ class ConfigsController extends AdminController
             'single-menu' => 'Single Menu',
             'single-album' => 'Single Album',
             'file' => 'File',
-            'files' => 'Files',
+            // 'files' => 'Files', // buaithlak
         ]);
         $form->textarea('options', __('Options'));
 
