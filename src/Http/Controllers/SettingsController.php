@@ -9,6 +9,7 @@ use Lailen\OpenAdmin\Site\Models\Album;
 use Lailen\OpenAdmin\Site\Models\Config;
 use Lailen\OpenAdmin\Site\Models\Menu;
 use Lailen\OpenAdmin\Site\Models\Page;
+use Lailen\OpenAdmin\Site\Models\PostCategory;
 use OpenAdmin\Admin\Layout\Content;
 
 class SettingsController extends AdminController
@@ -31,6 +32,14 @@ class SettingsController extends AdminController
             $setting = Config::where('key', $key)->first();
             if(!$setting) {
                 continue;
+            }
+
+            if ($setting->type == 'post-categories') {
+                foreach($value as $key => $id) {
+                    if (!$id) {
+                        unset($value[$key]);
+                    }
+                }
             }
 
             if ($setting->type == 'file') {
@@ -108,9 +117,14 @@ class SettingsController extends AdminController
                     ->value($value);
                 break;
             case 'file':
-                $form->file($key, $label . $value)
+                $form->file($key, $label)
                     ->pick()
                     ->value($value);
+                break;
+            case 'post-categories':
+                $items = PostCategory::all()->pluck('name', 'id');
+                $value = json_decode($value);
+                $form->multipleSelect($key, $label)->options($items)->value($value);
                 break;
             default: {
                 $form->{$config->type}($config->key, $config->title)->value($value);
