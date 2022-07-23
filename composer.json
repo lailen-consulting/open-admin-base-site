@@ -23,7 +23,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Lailen\\OpenAdmin\\Site\\": "src/"
+            "Lailen\\OpenAdmin\\Site\\": "src/",
+            "Lailen\\Seeders\\": "database/seeders/"
         }
     },
     "extra": {

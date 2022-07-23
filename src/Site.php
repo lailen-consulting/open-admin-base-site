@@ -2,6 +2,7 @@
 
 namespace Lailen\OpenAdmin\Site;
 
+use Lailen\Seeders\LailenSiteDefaultsSeeder;
 use Illuminate\Support\Facades\Artisan;
 use OpenAdmin\Admin\Auth\Database\Menu;
 use OpenAdmin\Admin\Extension;
@@ -76,6 +77,11 @@ class Site extends Extension
         Artisan::call('vendor:publish', ['--tag' => 'open-admin-ckeditor']);
 
         Artisan::call('migrate');
+
+        /**
+         * Class load dik thei lo. migration ah ka dah
+         */
+        // Artisan::call('db:seed', ['--class' => LailenSiteDefaultsSeeder::class]);
 
         /**
          * Mamawh hun atan. open-admin-ext helpers ami ka copy
