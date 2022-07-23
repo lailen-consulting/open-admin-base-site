@@ -27,19 +27,19 @@ return new class extends Migration
         /**
          * Seeder namespace a dik thei lo
          */
-        DB::table('ll_menus')->insert([
-            'name' => 'Main Menu',
-            'slug' => 'main-menu',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
         DB::table('ll_menu_items')->insert([
             'title' => 'Home',
             'link' => '/',
             'menu_id' => 1,
             'parent_id' => 0,
             'order' => 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('ll_menus')->insert([
+            'name' => 'Main Menu',
+            'slug' => 'main-menu',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
