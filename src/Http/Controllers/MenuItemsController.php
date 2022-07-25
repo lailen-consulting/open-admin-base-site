@@ -3,24 +3,40 @@
 namespace Lailen\OpenAdmin\Site\Http\Controllers;
 
 use Lailen\OpenAdmin\Site\Models\MenuItem;
-use OpenAdmin\Admin\Controllers\AdminController;
+use Illuminate\Routing\Controller;
+use OpenAdmin\Admin\Controllers\HasResourceActions;
 use OpenAdmin\Admin\Form;
 use OpenAdmin\Admin\Grid;
 use OpenAdmin\Admin\Layout\Column;
 use OpenAdmin\Admin\Show;
 use OpenAdmin\Admin\Layout\Content;
 use OpenAdmin\Admin\Layout\Row;
+use OpenAdmin\Admin\Traits\HasCustomHooks;
 use OpenAdmin\Admin\Tree;
 use OpenAdmin\Admin\Widgets\Box;
 
-class MenuItemsController extends AdminController
+class MenuItemsController extends Controller
 {
+
+    use HasResourceActions;
+    use HasCustomHooks;
+
     /**
      * Title for current resource.
      *
      * @var string
      */
     protected $title = 'Menu Items';
+
+    /**
+     * Get content title.
+     *
+     * @return string
+     */
+    protected function title()
+    {
+        return $this->title;
+    }
 
     public function index(Content $content)
     {
@@ -60,6 +76,29 @@ class MenuItemsController extends AdminController
             });
     }
 
+        /**
+     * Edit interface.
+     *
+     * @param mixed   $menuId
+     * @param mixed   $menuItemId
+     * @param Content $content
+     *
+     * @return Content
+     */
+    public function edit($menuId, $menuItemId, Content $content)
+    {
+        $form = $this->form();
+        if ($this->hasHooks('alterForm')) {
+            $form = $this->callHooks('alterForm', $form);
+        }
+
+        return $content
+            ->title($this->title())
+            ->description($this->description['edit'] ?? trans('admin.edit'))
+            ->body($form->edit($menuItemId));
+    }
+
+
     /**
      * Make a grid builder.
      *
@@ -90,6 +129,7 @@ class MenuItemsController extends AdminController
      */
     protected function detail($id)
     {
+        dd($id);
         $show = new Show(MenuItem::findOrFail($id));
 
         $show->field('id', __('Id'));
