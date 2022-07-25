@@ -4,7 +4,6 @@ namespace Lailen\OpenAdmin\Site\Http\Controllers;
 
 use Lailen\OpenAdmin\Site\Models\MenuItem;
 use Illuminate\Routing\Controller;
-use OpenAdmin\Admin\Controllers\HasResourceActions;
 use OpenAdmin\Admin\Form;
 use OpenAdmin\Admin\Grid;
 use OpenAdmin\Admin\Layout\Column;
@@ -18,7 +17,6 @@ use OpenAdmin\Admin\Widgets\Box;
 class MenuItemsController extends Controller
 {
 
-    use HasResourceActions;
     use HasCustomHooks;
 
     /**
@@ -56,6 +54,27 @@ class MenuItemsController extends Controller
                 $row->column(6, $this->grid());
                 $row->column(6, $this->treeView()->render());
             });
+    }
+
+    /**
+     * Show interface.
+     *
+     * @param mixed   $id
+     * @param Content $content
+     *
+     * @return Content
+     */
+    public function show($menuId, $menuItemId, Content $content)
+    {
+        $detail = $this->detail($menuItemId);
+        if ($this->hasHooks('alterDetail')) {
+            $detail = $this->callHooks('alterDetail', $detail);
+        }
+
+        return $content
+            ->title($this->title())
+            ->description($this->description['show'] ?? trans('admin.show'))
+            ->body($detail);
     }
 
     public function create(Content $content)
@@ -129,12 +148,14 @@ class MenuItemsController extends Controller
      */
     protected function detail($id)
     {
-        dd($id);
         $show = new Show(MenuItem::findOrFail($id));
 
         $show->field('id', __('Id'));
+        $show->field('title', __('Title'));
+        $show->field('link', __('Link'));
         $show->field('image', __('Image'))->image('/storage/admin/', 200, 200);
-        $show->field('caption', __('caption'));
+        $show->field('description', __('Description'));
+        $show->field('icon', __('Icon'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
         $show->field('deleted_at', __('Deleted at'));
@@ -184,5 +205,40 @@ class MenuItemsController extends Controller
         });
 
         return $tree;
+    }
+
+    /**
+     * Returns the form with possible callback hooks.
+     *
+     * @return \OpenAdmin\Admin\Form;
+     */
+    public function getForm()
+    {
+        $form = $this->form();
+        if (method_exists($this, 'hasHooks') && $this->hasHooks('alterForm')) {
+            $form = $this->callHooks('alterForm', $form);
+        }
+
+        return $form;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return mixed
+     */
+    public function store()
+    {
+        return $this->getForm()->store();
+    }
+
+    public function update($id, $menuItemId)
+    {
+        return $this->getForm()->update($menuItemId);
+    }
+
+    public function destroy($id, $menuItemId)
+    {
+        return $this->getForm()->destroy($menuItemId);
     }
 }
