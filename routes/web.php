@@ -12,18 +12,18 @@ use Lailen\OpenAdmin\Site\Http\Controllers\PostsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\PostTagsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\SettingsController;
 
-Route::resource('menus.items', MenuItemsController::class);
+Route::resource('ll_menus.items', MenuItemsController::class);
 
-Route::resource('menus', MenusController::class);
+Route::resource('ll_menus', MenusController::class);
 
-Route::resource('/pages', PagesController::class);
-Route::resource('/posts', PostsController::class);
-Route::resource('/post-categories', PostCategoriesController::class);
-Route::resource('/post-tags', PostTagsController::class);
+Route::resource('ll_pages', PagesController::class);
+Route::resource('ll_posts', PostsController::class);
+Route::resource('ll_post-categories', PostCategoriesController::class);
+Route::resource('ll_post-tags', PostTagsController::class);
 
-Route::resource('/albums', AlbumsController::class);
-Route::resource('/albums.photos', PhotosController::class);
+Route::resource('ll_albums', AlbumsController::class);
+Route::resource('ll_albums.photos', PhotosController::class);
 
-Route::resource('/configs', ConfigsController::class);
-Route::get('/settings', [SettingsController::class, 'index']);
-Route::post('/settings', [SettingsController::class, 'updateSettings']);
+Route::resource('ll_configs', ConfigsController::class);
+Route::get('ll_settings', [SettingsController::class, 'index']);
+Route::post('ll_settings', [SettingsController::class, 'updateSettings']);

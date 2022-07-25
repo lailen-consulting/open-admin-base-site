@@ -60,6 +60,7 @@ class Site extends Extension
         foreach ($menus as $menu) {
             $menu['parent_id'] = 0;
             $menu['order'] = $lastOrder++;
+            $menu['uri'] = 'll_' . $menu['uri'];
 
             Menu::create($menu);
         }

@@ -11,11 +11,6 @@ use OpenAdmin\Admin\Controllers\AdminController;
 use OpenAdmin\Admin\Form;
 use OpenAdmin\Admin\Show;
 use OpenAdmin\Admin\Grid;
-use OpenAdmin\Admin\Layout\Content;
-use OpenAdmin\Admin\Layout\Column;
-use OpenAdmin\Admin\Layout\Row;
-use OpenAdmin\Admin\Tree;
-use OpenAdmin\Admin\Widgets\Box;
 
 class MenusController extends AdminController
 {
@@ -93,80 +88,6 @@ class MenusController extends AdminController
         $show->field('deleted_at', __('Deleted at'));
 
         return $show;
-    }
-
-    public function editItems($id, Content $content)
-    {
-        return $content
-            ->title('Menu')
-            ->description('Edit')
-            ->row(function (Row $row) use ($id) {
-                $row->column(6, $this->treeView()->render());
-
-                $row->column(6, function (Column $column) use ($id) {
-                    $form = $this->getMenuItemForm();
-                    $form->action(admin_url('menus/' . $id . '/items'));
-                    $column->append((new Box('New Item', $form))->style('success'));
-                });
-            });
-    }
-
-    public function editItem(Menu $menu, MenuItem $menuItem, Content $content)
-    {
-        $form = $this->getMenuItemForm();
-        $form->action(admin_url('menus/' . $menu->id . '/items/' . $menuItem->id));
-
-        $form->hidden('_method')->default('PUT');
-
-        return $content
-            ->title('Edit menu item')
-            ->description($this->description['edit'] ?? trans('admin.edit'))
-            ->body($form->edit($menuItem->id));
-    }
-
-    public function updateItem(Menu $menu, MenuItem $menuItem, Request $request)
-    {
-        return $this->getMenuItemForm()->update($menuItem->id);
-    }
-
-    public function storeItem(Menu $menu, Request $request)
-    {
-        return $this->getMenuItemForm()->store();
-    }
-
-    public function destroyItem(Menu $menu, MenuItem $menuItem)
-    {
-        // dd($menuItem);
-        // dd($menuItem->delete());
-        // dd('asd');
-        // $menuItem->delete();
-        return $this->getMenuItemForm()->destroy($menuItem->id);
-
-        return redirect(admin_url('menus/' . $menu->id . '/items'));
-    }
-
-    public function editItemsOrder(Menu $menu, Request $request)
-    {
-        foreach(json_decode($request->input('_order')) as $key => $item) {
-            $this->updateItemOrder($item, $key);
-        }
-
-        return redirect(admin_url('menus/' . $menu->id . '/items'));
-    }
-
-    protected function getMenuItemForm () {
-        $menuId = request()->route('menu');
-        $form = new Form(new MenuItem());
-
-        $form->select('parent_id', trans('admin.parent_id'))->options(MenuItem::selectOptions());
-        $form->text('title', 'Title')->rules('required');
-        $form->text('link', 'Link');
-        $form->hidden('menu_id', $menuId);
-        $form->textarea('description', 'Description');
-        $form->image('image_path', 'Image');
-        $form->text('icon', 'Icon');
-
-        return $form;
     }
 
     /**

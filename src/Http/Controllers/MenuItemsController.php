@@ -43,10 +43,6 @@ class MenuItemsController extends Controller
             $grid = $this->callHooks('alterGrid', $grid);
         }
 
-        // return $content
-        //     ->title($this->title())
-        //     ->description($this->description['index'] ?? trans('admin.list'))
-        //     ->body($grid);
         return $content
             ->title('Menu')
             ->description('Edit')
@@ -79,7 +75,7 @@ class MenuItemsController extends Controller
 
     public function create(Content $content)
     {
-        $id = request()->route('menu');
+        $id = request()->route('ll_menu');
 
         return $content
             ->title('Menu')
@@ -126,7 +122,7 @@ class MenuItemsController extends Controller
     protected function grid()
     {
         $grid = new Grid(new MenuItem());
-        $grid->model()->where('menu_id', request()->route('menu'));
+        $grid->model()->where('menu_id', request()->route('ll_menu'));
 
         $grid->column('id', __('Id'));
         $grid->column('order', __('Order'));
@@ -170,7 +166,7 @@ class MenuItemsController extends Controller
      */
     protected function form()
     {
-        $menuId = request()->route('menu');
+        $menuId = request()->route('ll_menu');
         $form = new Form(new MenuItem());
 
         $form->select('parent_id', trans('admin.parent_id'))->options(MenuItem::selectOptions());
@@ -188,7 +184,7 @@ class MenuItemsController extends Controller
     {
         $tree = new Tree(new MenuItem());
         $tree->query(function($q) {
-            return $q->where('menu_id', request()->route('menu'));
+            return $q->where('menu_id', request()->route('ll_menu'));
         });
 
         $tree->disableCreate();
