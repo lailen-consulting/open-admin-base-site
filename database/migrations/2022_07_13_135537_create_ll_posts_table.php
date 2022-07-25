@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id('id');
             $table->string('title');
             $table->string('slug');
-            $table->string('excerpt');
+            $table->text('excerpt');
             $table->longText('content');
             $table->unsignedBigInteger('user_id');
             $table->dateTime('published_at');
