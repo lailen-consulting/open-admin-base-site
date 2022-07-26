@@ -69,7 +69,7 @@ class Site extends Extension
         $adminMenuOrder = Menu::where('parent_id', $adminMenuId)->count() + 1;
         Menu::create([
             'title' => 'Settings Configurations',
-            'uri' => 'configs',
+            'uri' => 'll_configs',
             'icon' => 'icon-cogs',
             'parent_id' => $adminMenuId,
             'order' => $adminMenuOrder,
