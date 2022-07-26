@@ -52,7 +52,7 @@ class SettingsController extends AdminController
             $setting->save();
         }
 
-        return redirect('/admin/settings');
+        return redirect(admin_url('ll_settings'));
     }
 
     /**
