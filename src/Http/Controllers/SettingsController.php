@@ -63,7 +63,7 @@ class SettingsController extends AdminController
     protected function form()
     {
         $form = new Form(new Config());
-        $form->setAction('settings');
+        $form->setAction('ll_settings');
         $form->setTitle('Settings Form');
 
         foreach(Config::get() as $config) {
