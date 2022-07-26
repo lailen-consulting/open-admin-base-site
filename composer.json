@@ -15,7 +15,7 @@
         "php": ">=7.0.0",
         "intervention/image": "^2.7",
         "open-admin-ext/ckeditor": "^1.0",
-        "open-admin-ext/media-manager": "^1.0",
+        "lailen/open-admin-ext-media-manager": "^1.0",
         "open-admin-org/open-admin": "~1.0"
     },
     "require-dev": {
