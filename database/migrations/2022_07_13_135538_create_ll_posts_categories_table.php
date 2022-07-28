@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ll_posts_categories', function (Blueprint $table) {
-            $table->foreignId('post_id');
+        Schema::create('ll_categorizable', function (Blueprint $table) {
+            $table->foreignId('categorizable_id');
+            $table->foreignId('categorizable_type');
             $table->foreignId('category_id');
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ll_posts_categories');
+        Schema::dropIfExists('ll_categorizable');
     }
 };

@@ -17,4 +17,14 @@ class Page extends Model
     {
         return $this->belongsTo(Administrator::class, 'user_id');
     }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    public function categories()
+    {
+        return $this->morphToMany(Categories::class, 'categorizable');
+    }
 }

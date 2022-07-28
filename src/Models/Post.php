@@ -29,6 +29,6 @@ class Post extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(PostTag::class, 'll_posts_tags', 'post_id', 'tag_id');
+        return $this->morphToMany(Tag::class, 'categorizable');
     }
 }

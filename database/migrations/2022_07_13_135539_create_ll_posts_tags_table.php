@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ll_posts_tags', function (Blueprint $table) {
-            $table->foreignId('post_id');
+        Schema::create('ll_taggables', function (Blueprint $table) {
+            $table->foreignId('taggable_id');
+            $table->string('taggable_type');
             $table->foreignId('tag_id');
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ll_posts_tags');
+        Schema::dropIfExists('ll_taggables');
     }
 };

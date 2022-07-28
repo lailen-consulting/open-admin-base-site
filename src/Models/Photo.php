@@ -18,4 +18,14 @@ class Photo extends Model
     {
         return $this->belongsTo(Album::class);
     }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    public function categories()
+    {
+        return $this->morphToMany(Categories::class, 'categorizable');
+    }
 }
