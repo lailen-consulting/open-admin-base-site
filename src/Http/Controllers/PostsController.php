@@ -55,7 +55,7 @@ class PostsController extends AdminController
         $show->field('published_at', __('Published at'));
         $show->field('slug', __('Slug'));
         $show->field('excerpt', __('Excerpt'));
-        $show->field('image', __('Image'))->image('/storage/admin/', 200, 200);
+        $show->field('image', __('Image'))->image('/storage/' . config('site.posts.image_prefix') . '/', config('site.posts.thumbnails.small'));
         $show->field('content', __('Content'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
@@ -77,11 +77,31 @@ class PostsController extends AdminController
         // $form->text('slug', __('Slug'));
         $form->textarea('excerpt', __('Excerpt'))->rules('max:100');
         $form->ckeditor('content', __('Content'))->required();
-        $form->image('image', __('Image'))->thumbnail([
-            'small' => [250, null],
-            'medium' => [500, null],
-            'full' => [1024, null],
-        ]);
+
+        $form->image('image', __('Image'))
+            ->thumbnailFunction('small', function ($image) {
+                $image->resize(config('site.posts.thumbnails.small'), null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                return $image;
+            })
+            ->thumbnailFunction('medium', function ($image) {
+                $image->resize(config('site.posts.thumbnails.medium'), null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                return $image;
+            })
+            ->thumbnailFunction('large', function ($image) {
+                $image->resize(config('site.posts.thumbnails.large'), null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                return $image;
+            })
+            ->uniqueName()
+            ->move('post-images');
 
         $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));
         $form->multipleSelect('categories','Categories')->options(PostCategory::all()->pluck('name','id'));

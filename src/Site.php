@@ -2,7 +2,7 @@
 
 namespace Lailen\OpenAdmin\Site;
 
-use Lailen\Seeders\LailenSiteDefaultsSeeder;
+// use Lailen\Seeders\LailenSiteDefaultsSeeder;
 use Illuminate\Support\Facades\Artisan;
 use OpenAdmin\Admin\Auth\Database\Menu;
 use OpenAdmin\Admin\Extension;
@@ -76,6 +76,7 @@ class Site extends Extension
         ]);
 
         Artisan::call('vendor:publish', ['--tag' => 'open-admin-ckeditor']);
+        Artisan::call('vendor:publish', ['--provider' => SiteServiceProvider::class]);
 
         Artisan::call('migrate');
 

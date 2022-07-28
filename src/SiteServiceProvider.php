@@ -23,6 +23,11 @@ class SiteServiceProvider extends ServiceProvider
             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         }
 
+        $this->mergeConfigFrom(__DIR__.'/../config/site.php', 'site');
+
+        $this->publishes([
+                __DIR__.'/config/site.php' => config_path('site.php'),
+            ], 'config');
 
         $this->app->booted(function () {
             Site::routes(__DIR__.'/../routes/web.php');

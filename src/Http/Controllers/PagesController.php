@@ -54,7 +54,7 @@ class PagesController extends AdminController
         $show->field('slug', __('Slug'));
         $show->field('excerpt', __('Excerpt'));
         $show->field('content', __('Content'));
-        $show->field('image', __('Image'))->image('/storage/admin/', 200, 200);
+        $show->field('image', __('Image'))->image('/storage/' . config('site.posts.image_prefix') . '/', config('site.posts.thumbnails.small'));
         $show->field('user_id', __('User id'));
         $show->field('published_at', __('Published at'));
         $show->field('created_at', __('Created at'));
@@ -78,11 +78,31 @@ class PagesController extends AdminController
         $form->ckeditor('content', __('Content'))->rules('required', ['required' => 'Content is required']);
         $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
         $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));
-        $form->image('image', __('Image'))->thumbnail([
-            'small' => [250, null],
-            'medium' => [500, null],
-            'full' => [1024, null],
-        ]);
+
+        $form->image('image', __('Image'))
+            ->thumbnailFunction('small', function ($image) {
+                $image->resize(config('site.posts.thumbnails.small'), null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                return $image;
+            })
+            ->thumbnailFunction('medium', function ($image) {
+                $image->resize(config('site.posts.thumbnails.medium'), null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                return $image;
+            })
+            ->thumbnailFunction('large', function ($image) {
+                $image->resize(config('site.posts.thumbnails.large'), null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                return $image;
+            })
+            ->uniqueName()
+            ->move('page-images');
 
         $form->saving(function (Form $form){
             if (!isset($form->user_id)) {
