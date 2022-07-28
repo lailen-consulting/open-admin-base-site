@@ -11,6 +11,7 @@ use Lailen\OpenAdmin\Site\Http\Controllers\PostCategoriesController;
 use Lailen\OpenAdmin\Site\Http\Controllers\PostsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\PostTagsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\SettingsController;
+use Lailen\OpenAdmin\Site\Http\Controllers\VideosController;
 
 Route::resource('ll_menus.items', MenuItemsController::class);
 
@@ -27,3 +28,5 @@ Route::resource('ll_albums.photos', PhotosController::class);
 Route::resource('ll_configs', ConfigsController::class);
 Route::get('ll_settings', [SettingsController::class, 'index']);
 Route::post('ll_settings', [SettingsController::class, 'updateSettings']);
+
+Route::resource('ll_videos', VideosController::class);

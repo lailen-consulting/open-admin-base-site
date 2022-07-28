@@ -41,6 +41,11 @@ class Site extends Extension
                 'icon'  => 'icon-file-alt',
             ],
             [
+                'title' => 'Video',
+                'uri'  => 'videos',
+                'icon'  => 'icon-video',
+            ],
+            [
                 'title' => 'Tags',
                 'uri'  => 'post-tags',
                 'icon'  => 'icon-tags',
