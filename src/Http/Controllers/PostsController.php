@@ -55,7 +55,7 @@ class PostsController extends AdminController
         $show->field('published_at', __('Published at'));
         $show->field('slug', __('Slug'));
         $show->field('excerpt', __('Excerpt'));
-        $show->field('image', __('Image'))->image('/storage/' . config('site.posts.image_prefix') . '/', config('site.posts.thumbnails.small'));
+        $show->field('image', __('Image'))->image('/storage/' . config('site.image_prefix') . '/', config('site.posts.thumbnails.small'));
         $show->field('content', __('Content'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));

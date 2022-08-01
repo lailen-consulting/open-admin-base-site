@@ -56,7 +56,7 @@ class PagesController extends AdminController
         $show->field('slug', __('Slug'));
         $show->field('excerpt', __('Excerpt'));
         $show->field('content', __('Content'));
-        $show->field('image', __('Image'))->image('/storage/' . config('site.posts.image_prefix') . '/', config('site.posts.thumbnails.small'));
+        $show->field('image', __('Image'))->image('/storage/' . config('site.image_prefix') . '/', config('site.posts.thumbnails.small'));
         $show->field('user_id', __('User id'));
         $show->field('published_at', __('Published at'));
         $show->field('created_at', __('Created at'));

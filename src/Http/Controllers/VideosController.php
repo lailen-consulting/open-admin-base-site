@@ -53,7 +53,7 @@ class VideosController extends AdminController
         $show->field('title', __('Title'));
         $show->field('description', __('Description'));
         $show->field('embed_code', __('Embed Code'));
-        $show->field('thumbnail', __('Thumbnail'))->image('/storage/' . config('site.posts.image_prefix') . '/', config('site.posts.thumbnails.small'));
+        $show->field('thumbnail', __('Thumbnail'))->image('/storage/' . config('site.image_prefix') . '/', config('site.posts.thumbnails.small'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
         $show->field('deleted_at', __('Deleted at'));

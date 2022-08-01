@@ -29,7 +29,7 @@ class PhotosController extends AdminController
         $grid = new Grid(new Photo());
 
         $grid->column('id', __('Id'));
-        $grid->column('image', __('Image'))->image('/storage/' . config('site.posts.image_prefix') . '/', 200, 200);;
+        $grid->column('image', __('Image'))->image('/storage/' . config('site.image_prefix') . '/', 200, 200);;
         $grid->column('caption', __('Caption'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
@@ -48,7 +48,7 @@ class PhotosController extends AdminController
         $show = new Show(Photo::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('image', __('Image'))->image('/storage/' . config('site.posts.image_prefix') . '/', 200, 200);
+        $show->field('image', __('Image'))->image('/storage/' . config('site.image_prefix') . '/', 200, 200);
         $show->field('caption', __('caption'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
