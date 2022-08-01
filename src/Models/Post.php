@@ -24,11 +24,11 @@ class Post extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(PostCategory::class, 'll_posts_categories', 'post_id', 'category_id');
+        return $this->morphToMany(Category::class, 'categorizable');
     }
 
     public function tags()
     {
-        return $this->morphToMany(Tag::class, 'categorizable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 }

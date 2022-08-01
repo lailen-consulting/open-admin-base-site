@@ -9,6 +9,8 @@ use OpenAdmin\Admin\Show;
 use Lailen\OpenAdmin\Site\Models\Page;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Lailen\OpenAdmin\Site\Models\Category;
+use Lailen\OpenAdmin\Site\Models\Tag;
 use OpenAdmin\Admin\Auth\Database\Administrator;
 
 class PagesController extends AdminController
@@ -78,6 +80,9 @@ class PagesController extends AdminController
         $form->ckeditor('content', __('Content'))->rules('required', ['required' => 'Content is required']);
         $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
         $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));
+
+        $form->multipleSelect('categories','Categories')->options(Category::all()->pluck('name','id'));
+        $form->multipleSelect('tags','Tags')->options(Tag::all()->pluck('name','id'));
 
         $form->image('image', __('Image'))
             ->thumbnailFunction('small', function ($image) {

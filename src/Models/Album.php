@@ -17,4 +17,14 @@ class Album extends Model
     {
         return $this->belongsTo(Administrator::class, 'user_id');
     }
+
+    public function categories()
+    {
+        return $this->morphToMany(Category::class, 'categorizable');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 }

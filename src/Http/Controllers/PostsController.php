@@ -9,8 +9,8 @@ use OpenAdmin\Admin\Grid;
 use OpenAdmin\Admin\Show;
 use Illuminate\Support\Str;
 use Lailen\OpenAdmin\Site\Models\Post;
-use Lailen\OpenAdmin\Site\Models\PostCategory;
-use Lailen\OpenAdmin\Site\Models\PostTag;
+use Lailen\OpenAdmin\Site\Models\Category;
+use Lailen\OpenAdmin\Site\Models\Tag;
 use OpenAdmin\Admin\Auth\Database\Administrator;
 
 class PostsController extends AdminController
@@ -104,8 +104,8 @@ class PostsController extends AdminController
             ->move('post-images');
 
         $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));
-        $form->multipleSelect('categories','Categories')->options(PostCategory::all()->pluck('name','id'));
-        $form->multipleSelect('tags','Tags')->options(PostTag::all()->pluck('name','id'));
+        $form->multipleSelect('categories','Categories')->options(Category::all()->pluck('name','id'));
+        $form->multipleSelect('tags','Tags')->options(Tag::all()->pluck('name','id'));
 
         $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
 
@@ -115,6 +115,7 @@ class PostsController extends AdminController
             }
             $model = $form->model();
             $model->slug = Str::slug($form->input('title'));
+
 
             if (!isset($model->published_at)) {
                 $model->published_at = now();

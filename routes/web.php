@@ -7,9 +7,9 @@ use Lailen\OpenAdmin\Site\Http\Controllers\MenuItemsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\MenusController;
 use Lailen\OpenAdmin\Site\Http\Controllers\PagesController;
 use Lailen\OpenAdmin\Site\Http\Controllers\PhotosController;
-use Lailen\OpenAdmin\Site\Http\Controllers\PostCategoriesController;
+use Lailen\OpenAdmin\Site\Http\Controllers\CategoriesController;
 use Lailen\OpenAdmin\Site\Http\Controllers\PostsController;
-use Lailen\OpenAdmin\Site\Http\Controllers\PostTagsController;
+use Lailen\OpenAdmin\Site\Http\Controllers\TagsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\SettingsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\VideosController;
 
@@ -19,8 +19,8 @@ Route::resource('ll_menus', MenusController::class);
 
 Route::resource('ll_pages', PagesController::class);
 Route::resource('ll_posts', PostsController::class);
-Route::resource('ll_post-categories', PostCategoriesController::class);
-Route::resource('ll_post-tags', PostTagsController::class);
+Route::resource('ll_post-categories', CategoriesController::class);
+Route::resource('ll_post-tags', TagsController::class);
 
 Route::resource('ll_albums', AlbumsController::class);
 Route::resource('ll_albums.photos', PhotosController::class);

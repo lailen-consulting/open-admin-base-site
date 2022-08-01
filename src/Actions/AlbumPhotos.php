@@ -12,7 +12,6 @@ class AlbumPhotos extends RowAction
 
     public function href()
     {
-        // admin_route emawni hman tur
-        return admin_url('albums/' . $this->getKey() . '/photos');
+        return admin_url('ll_albums/' . $this->getKey() . '/photos');
     }
 }

@@ -2,18 +2,13 @@
 
 namespace Lailen\OpenAdmin\Site\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use OpenAdmin\Admin\Controllers\AdminController;
 use OpenAdmin\Admin\Form;
 use OpenAdmin\Admin\Grid;
 use OpenAdmin\Admin\Show;
-use Illuminate\Support\Str;
-use Lailen\OpenAdmin\Site\Models\Album;
+use Lailen\OpenAdmin\Site\Models\Category;
 use Lailen\OpenAdmin\Site\Models\Photo;
-use Lailen\OpenAdmin\Site\Models\Post;
-use Lailen\OpenAdmin\Site\Models\PostCategory;
-use Lailen\OpenAdmin\Site\Models\PostTag;
-use OpenAdmin\Admin\Auth\Database\Administrator;
+use Lailen\OpenAdmin\Site\Models\Tag;
 
 class PhotosController extends AdminController
 {
@@ -34,7 +29,7 @@ class PhotosController extends AdminController
         $grid = new Grid(new Photo());
 
         $grid->column('id', __('Id'));
-        $grid->column('image', __('Image'))->image('/storage/admin/', 200, 200);;
+        $grid->column('image', __('Image'))->image('/storage/' . config('site.posts.image_prefix') . '/', 200, 200);;
         $grid->column('caption', __('Caption'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
@@ -53,7 +48,7 @@ class PhotosController extends AdminController
         $show = new Show(Photo::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('image', __('Image'))->image('/storage/admin/', 200, 200);
+        $show->field('image', __('Image'))->image('/storage/' . config('site.posts.image_prefix') . '/', 200, 200);
         $show->field('caption', __('caption'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
@@ -69,7 +64,7 @@ class PhotosController extends AdminController
      */
     protected function form()
     {
-        $albumId = request()->route('album');
+        $albumId = request()->route('ll_album');
         $form = new Form(new Photo());
 
         $form->text('caption', __('Caption'));
@@ -78,7 +73,13 @@ class PhotosController extends AdminController
             'small' => [250, null],
             'medium' => [500, null],
             'full' => [800, null],
-        ]);
+        ])
+        ->required()
+        ->uniqueName()
+        ->move('albums/' . $albumId . '/');
+
+        $form->multipleSelect('categories','Categories')->options(Category::all()->pluck('name','id'));
+        $form->multipleSelect('tags','Tags')->options(Tag::all()->pluck('name','id'));
 
         return $form;
     }
