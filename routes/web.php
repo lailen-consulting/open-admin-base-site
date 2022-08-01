@@ -13,6 +13,11 @@ use Lailen\OpenAdmin\Site\Http\Controllers\TagsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\SettingsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\VideosController;
 
+/**
+ * @todo middleware hmangin module extra deuh hlek ho hi disable theih sela.
+ * middleware ah khan config('site.{{module}}.enabled') false chuan
+ * redirect to admin home ni ta mai sela a fuh ang ka ring
+ */
 Route::resource('ll_menus.items', MenuItemsController::class);
 
 Route::resource('ll_menus', MenusController::class);

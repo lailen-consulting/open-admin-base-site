@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use OpenAdmin\Admin\Controllers\AdminController;
 use OpenAdmin\Admin\Form;
 use Lailen\OpenAdmin\Site\Models\Album;
+use Lailen\OpenAdmin\Site\Models\Category;
 use Lailen\OpenAdmin\Site\Models\Config;
 use Lailen\OpenAdmin\Site\Models\Menu;
 use Lailen\OpenAdmin\Site\Models\Page;
-use Lailen\OpenAdmin\Site\Models\PostCategory;
 use OpenAdmin\Admin\Layout\Content;
 
 class SettingsController extends AdminController
@@ -122,7 +122,7 @@ class SettingsController extends AdminController
                     ->value($value);
                 break;
             case 'post-categories':
-                $items = PostCategory::all()->pluck('name', 'id');
+                $items = Category::all()->pluck('name', 'id');
                 $value = json_decode($value);
                 $form->multipleSelect($key, $label)->options($items)->value($value);
                 break;
