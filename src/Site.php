@@ -46,6 +46,11 @@ class Site extends Extension
                 'icon'  => 'icon-video',
             ],
             [
+                'title' => 'Events',
+                'uri'  => 'events',
+                'icon'  => 'icon-calendar',
+            ],
+            [
                 'title' => 'Tags',
                 'uri'  => 'post-tags',
                 'icon'  => 'icon-tags',

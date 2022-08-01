@@ -8,6 +8,7 @@ use Lailen\OpenAdmin\Site\Http\Controllers\MenusController;
 use Lailen\OpenAdmin\Site\Http\Controllers\PagesController;
 use Lailen\OpenAdmin\Site\Http\Controllers\PhotosController;
 use Lailen\OpenAdmin\Site\Http\Controllers\CategoriesController;
+use Lailen\OpenAdmin\Site\Http\Controllers\EventsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\PostsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\TagsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\SettingsController;
@@ -35,3 +36,5 @@ Route::get('ll_settings', [SettingsController::class, 'index']);
 Route::post('ll_settings', [SettingsController::class, 'updateSettings']);
 
 Route::resource('ll_videos', VideosController::class);
+
+Route::resource('ll_events', EventsController::class);
