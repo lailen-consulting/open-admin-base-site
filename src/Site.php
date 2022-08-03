@@ -52,12 +52,12 @@ class Site extends Extension
             ],
             [
                 'title' => 'Tags',
-                'uri'  => 'post-tags',
+                'uri'  => 'tags',
                 'icon'  => 'icon-tags',
             ],
             [
                 'title' => 'Categories',
-                'uri'  => 'post-categories',
+                'uri'  => 'categories',
                 'icon'  => 'icon-file',
             ],
             [

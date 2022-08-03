@@ -25,8 +25,8 @@ Route::resource('ll_menus', MenusController::class);
 
 Route::resource('ll_pages', PagesController::class);
 Route::resource('ll_posts', PostsController::class);
-Route::resource('ll_post-categories', CategoriesController::class);
-Route::resource('ll_post-tags', TagsController::class);
+Route::resource('ll_categories', CategoriesController::class);
+Route::resource('ll_tags', TagsController::class);
 
 Route::resource('ll_albums', AlbumsController::class);
 Route::resource('ll_albums.photos', PhotosController::class);
