@@ -2,6 +2,7 @@
 
 namespace Lailen\OpenAdmin\Site\Http\Controllers;
 
+use Lailen\OpenAdmin\Site\Helpers;
 use Lailen\OpenAdmin\Site\Models\Event;
 use OpenAdmin\Admin\Controllers\AdminController;
 use OpenAdmin\Admin\Form;
@@ -58,6 +59,8 @@ class EventsController extends AdminController
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
+        Helpers::addCategoriesAndTagsToDetails($show);
+
         return $show;
     }
 
@@ -70,9 +73,9 @@ class EventsController extends AdminController
     {
         $form = new Form(new Event());
 
-        $form->text('title', __('Title'));
+        $form->text('title', __('Title'))->required();
         $form->textarea('description', __('Description'));
-        $form->datetime('starts_at', __('Starts at'))->default(date('Y-m-d H:i:s'));
+        $form->datetime('starts_at', __('Starts at'))->default(date('Y-m-d H:i:s'))->required();
         $form->datetime('ends_at', __('Ends at'))->default(date('Y-m-d H:i:s'));
         $form->textarea('location', __('Location'));
         $form->text('latitude', __('Latitude'));
@@ -102,7 +105,7 @@ class EventsController extends AdminController
             })
             ->uniqueName()
             ->move('page-images');
-
+        Helpers::addCategoriesAndTagsToForm($form);
         return $form;
     }
 }

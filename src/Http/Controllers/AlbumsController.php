@@ -95,10 +95,10 @@ class AlbumsController extends AdminController
         $form = new Form(new Album());
 
         $form->text('name', __('Title'));
-        $form->multipleSelect('categories','Categories')->options(Category::all()->pluck('name','id'));
-        $form->multipleSelect('tags','Tags')->options(Tag::all()->pluck('name','id'));
         $form->textarea('description', __('Description'));
         $form->datetime('time', __('Time'))->value(now());
+        $form->multipleSelect('categories','Categories')->options(Category::all()->pluck('name','id'));
+        $form->multipleSelect('tags','Tags')->options(Tag::all()->pluck('name','id'));
 
         return $form;
     }

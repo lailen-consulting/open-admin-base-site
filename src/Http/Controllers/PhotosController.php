@@ -2,6 +2,7 @@
 
 namespace Lailen\OpenAdmin\Site\Http\Controllers;
 
+use Lailen\OpenAdmin\Site\Helpers;
 use OpenAdmin\Admin\Controllers\AdminController;
 use OpenAdmin\Admin\Form;
 use OpenAdmin\Admin\Grid;
@@ -54,6 +55,8 @@ class PhotosController extends AdminController
         $show->field('updated_at', __('Updated at'));
         $show->field('deleted_at', __('Deleted at'));
 
+        Helpers::addCategoriesAndTagsToDetails($show);
+
         return $show;
     }
 
@@ -78,8 +81,7 @@ class PhotosController extends AdminController
         ->uniqueName()
         ->move('albums/' . $albumId . '/');
 
-        $form->multipleSelect('categories','Categories')->options(Category::all()->pluck('name','id'));
-        $form->multipleSelect('tags','Tags')->options(Tag::all()->pluck('name','id'));
+        Helpers::addCategoriesAndTagsToForm($form);
 
         return $form;
     }

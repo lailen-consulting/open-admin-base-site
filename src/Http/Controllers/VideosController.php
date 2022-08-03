@@ -9,6 +9,7 @@ use OpenAdmin\Admin\Show;
 use Lailen\OpenAdmin\Site\Models\Page;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Lailen\OpenAdmin\Site\Helpers;
 use Lailen\OpenAdmin\Site\Models\Video;
 use OpenAdmin\Admin\Auth\Database\Administrator;
 
@@ -57,6 +58,7 @@ class VideosController extends AdminController
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
         $show->field('deleted_at', __('Deleted at'));
+        Helpers::addCategoriesAndTagsToDetails($show);
 
         return $show;
     }
@@ -98,6 +100,8 @@ class VideosController extends AdminController
             })
             ->uniqueName()
             ->move('video-thumbnails');
+
+        Helpers::addCategoriesAndTagsToForm($form);
 
         return $form;
     }

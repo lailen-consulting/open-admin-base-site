@@ -9,6 +9,7 @@ use OpenAdmin\Admin\Show;
 use Lailen\OpenAdmin\Site\Models\Page;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Lailen\OpenAdmin\Site\Helpers;
 use Lailen\OpenAdmin\Site\Models\Category;
 use Lailen\OpenAdmin\Site\Models\Tag;
 use OpenAdmin\Admin\Auth\Database\Administrator;
@@ -63,6 +64,8 @@ class PagesController extends AdminController
         $show->field('updated_at', __('Updated at'));
         $show->field('deleted_at', __('Deleted at'));
 
+        Helpers::addCategoriesAndTagsToDetails($show);
+
         return $show;
     }
 
@@ -81,8 +84,7 @@ class PagesController extends AdminController
         $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
         $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));
 
-        $form->multipleSelect('categories','Categories')->options(Category::all()->pluck('name','id'));
-        $form->multipleSelect('tags','Tags')->options(Tag::all()->pluck('name','id'));
+        Helpers::addCategoriesAndTagsToForm($form);
 
         $form->image('image', __('Image'))
             ->thumbnailFunction('small', function ($image) {

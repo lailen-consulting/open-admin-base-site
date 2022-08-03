@@ -8,6 +8,7 @@ use OpenAdmin\Admin\Form;
 use OpenAdmin\Admin\Grid;
 use OpenAdmin\Admin\Show;
 use Illuminate\Support\Str;
+use Lailen\OpenAdmin\Site\Helpers;
 use Lailen\OpenAdmin\Site\Models\Post;
 use Lailen\OpenAdmin\Site\Models\Category;
 use Lailen\OpenAdmin\Site\Models\Tag;
@@ -61,6 +62,8 @@ class PostsController extends AdminController
         $show->field('updated_at', __('Updated at'));
         $show->field('deleted_at', __('Deleted at'));
 
+        Helpers::addCategoriesAndTagsToDetails($show);
+
         return $show;
     }
 
@@ -75,7 +78,7 @@ class PostsController extends AdminController
 
         $form->text('title', __('Title'))->required();
         // $form->text('slug', __('Slug'));
-        $form->textarea('excerpt', __('Excerpt'))->rules('max:100');
+        $form->textarea('excerpt', __('Excerpt'))->rules('max:100')->required();
         $form->ckeditor('content', __('Content'))->required();
 
         $form->image('image', __('Image'))
@@ -104,8 +107,8 @@ class PostsController extends AdminController
             ->move('post-images');
 
         $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));
-        $form->multipleSelect('categories','Categories')->options(Category::all()->pluck('name','id'));
-        $form->multipleSelect('tags','Tags')->options(Tag::all()->pluck('name','id'));
+
+        Helpers::addCategoriesAndTagsToForm($form);
 
         $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
 
