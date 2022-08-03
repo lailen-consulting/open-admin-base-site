@@ -102,7 +102,7 @@ class SettingsController extends AdminController
                 $form->checkbox($key, $label)
                     ->options($options['options'])
                     ->default(isset($options['default']) ? $options['default'] : '')
-                    ->value($value);
+                    ->value(json_decode($value));
                 break;
             case 'radio':
                 $form->radio($key, $label)
