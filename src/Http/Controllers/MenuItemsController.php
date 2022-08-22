@@ -130,7 +130,7 @@ class MenuItemsController extends Controller
         $grid->column('title', __('Title'));
         $grid->column('link', __('Link'));
         $grid->column('icon', __('Icon'));
-        $grid->column('image', __('Image'))->image('/storage/admin/', 200, 200);
+        $grid->column('image', __('Image'))->image('/storage/' . config('site.image_prefix') . '/', 200, 200);
 
 
         return $grid;
@@ -149,7 +149,7 @@ class MenuItemsController extends Controller
         $show->field('id', __('Id'));
         $show->field('title', __('Title'));
         $show->field('link', __('Link'));
-        $show->field('image', __('Image'))->image('/storage/admin/', 200, 200);
+        $show->field('image', __('Image'))->image('/storage/' . config('site.image_prefix') . '/', 200, 200);
         $show->field('description', __('Description'));
         $show->field('icon', __('Icon'));
         $show->field('created_at', __('Created at'));
