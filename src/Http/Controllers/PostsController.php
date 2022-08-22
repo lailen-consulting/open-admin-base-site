@@ -89,7 +89,7 @@ class PostsController extends AdminController
 
         $form->text('title', __('Title'))->required();
         // $form->text('slug', __('Slug'));
-        $form->textarea('excerpt', __('Excerpt'))->rules('max:100')->required();
+        $form->textarea('excerpt', __('Excerpt'))->required();
         $form->ckeditor('content', __('Content'))->required();
 
         $form->image('image', __('Image'))
