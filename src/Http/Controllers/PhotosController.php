@@ -2,14 +2,13 @@
 
 namespace Lailen\OpenAdmin\Site\Http\Controllers;
 
+use Carbon\Carbon;
 use Lailen\OpenAdmin\Site\Helpers;
 use OpenAdmin\Admin\Controllers\AdminController;
 use OpenAdmin\Admin\Form;
 use OpenAdmin\Admin\Grid;
 use OpenAdmin\Admin\Show;
-use Lailen\OpenAdmin\Site\Models\Category;
 use Lailen\OpenAdmin\Site\Models\Photo;
-use Lailen\OpenAdmin\Site\Models\Tag;
 
 class PhotosController extends AdminController
 {
@@ -51,9 +50,15 @@ class PhotosController extends AdminController
         $show->field('id', __('Id'));
         $show->field('image', __('Image'))->image('/storage/' . config('site.image_prefix') . '/', 200, 200);
         $show->field('caption', __('caption'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
-        $show->field('deleted_at', __('Deleted at'));
+        $show->field('created_at', __('Created at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $show->field('updated_at', __('Updated at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $show->field('deleted_at', __('Deleted at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
 
         Helpers::addCategoriesAndTagsToDetails($show);
 

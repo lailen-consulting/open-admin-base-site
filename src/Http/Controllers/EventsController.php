@@ -2,6 +2,7 @@
 
 namespace Lailen\OpenAdmin\Site\Http\Controllers;
 
+use Carbon\Carbon;
 use Lailen\OpenAdmin\Site\Helpers;
 use Lailen\OpenAdmin\Site\Models\Event;
 use OpenAdmin\Admin\Controllers\AdminController;
@@ -30,8 +31,12 @@ class EventsController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('title', __('Title'));
-        $grid->column('starts_at', __('Starts at'));
-        $grid->column('ends_at', __('Ends at'));
+        $grid->column('starts_at', __('Starts at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $grid->column('ends_at', __('Ends at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
         $grid->column('location', __('Location'));
 
         return $grid;

@@ -2,6 +2,7 @@
 
 namespace Lailen\OpenAdmin\Site\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Lailen\OpenAdmin\Site\Actions\EditMenuItems;
@@ -46,8 +47,12 @@ class MenusController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
         $grid->column('slug', __('Slug'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('created_at', __('Created at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $grid->column('updated_at', __('Updated at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
         $grid->actions(function ($actions) {
             $actions->add(new EditMenuItems());
         });
@@ -83,9 +88,15 @@ class MenusController extends AdminController
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
         $show->field('slug', __('Slug'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
-        $show->field('deleted_at', __('Deleted at'));
+        $show->field('created_at', __('Created at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $show->field('updated_at', __('Updated at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $show->field('deleted_at', __('Deleted at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
 
         return $show;
     }

@@ -2,6 +2,7 @@
 
 namespace Lailen\OpenAdmin\Site\Http\Controllers;
 
+use Carbon\Carbon;
 use OpenAdmin\Admin\Controllers\AdminController;
 use OpenAdmin\Admin\Form;
 use OpenAdmin\Admin\Grid;
@@ -10,8 +11,6 @@ use Lailen\OpenAdmin\Site\Models\Page;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Lailen\OpenAdmin\Site\Helpers;
-use Lailen\OpenAdmin\Site\Models\Category;
-use Lailen\OpenAdmin\Site\Models\Tag;
 use OpenAdmin\Admin\Auth\Database\Administrator;
 
 class PagesController extends AdminController
@@ -35,9 +34,15 @@ class PagesController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('title', __('Title'));
         $grid->column('user.name', __('Author'));
-        $grid->column('published_at', __('Published at'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('published_at', __('Published at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $grid->column('created_at', __('Created at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $grid->column('updated_at', __('Updated at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
 
         return $grid;
     }
@@ -60,9 +65,15 @@ class PagesController extends AdminController
         $show->field('image', __('Image'))->image('/storage/' . config('site.image_prefix') . '/', config('site.posts.thumbnails.small'));
         $show->field('user_id', __('User id'));
         $show->field('published_at', __('Published at'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
-        $show->field('deleted_at', __('Deleted at'));
+        $show->field('created_at', __('Created at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $show->field('updated_at', __('Updated at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $show->field('deleted_at', __('Deleted at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
 
         Helpers::addCategoriesAndTagsToDetails($show);
 

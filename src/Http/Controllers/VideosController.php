@@ -2,16 +2,13 @@
 
 namespace Lailen\OpenAdmin\Site\Http\Controllers;
 
+use Carbon\Carbon;
 use OpenAdmin\Admin\Controllers\AdminController;
 use OpenAdmin\Admin\Form;
 use OpenAdmin\Admin\Grid;
 use OpenAdmin\Admin\Show;
-use Lailen\OpenAdmin\Site\Models\Page;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Lailen\OpenAdmin\Site\Helpers;
 use Lailen\OpenAdmin\Site\Models\Video;
-use OpenAdmin\Admin\Auth\Database\Administrator;
 
 class VideosController extends AdminController
 {
@@ -34,8 +31,12 @@ class VideosController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('title', __('Title'));
         $grid->column('description', __('Description'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('created_at', __('Created at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $grid->column('updated_at', __('Updated at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
 
         return $grid;
     }
@@ -55,9 +56,15 @@ class VideosController extends AdminController
         $show->field('description', __('Description'));
         $show->field('embed_code', __('Embed Code'));
         $show->field('thumbnail', __('Thumbnail'))->image('/storage/' . config('site.image_prefix') . '/', config('site.posts.thumbnails.small'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
-        $show->field('deleted_at', __('Deleted at'));
+        $show->field('created_at', __('Created at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $show->field('updated_at', __('Updated at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
+        $show->field('deleted_at', __('Deleted at'))->display(function($time) {
+            return Carbon::create($time)->format('dS M, Y h:i a');
+        });
         Helpers::addCategoriesAndTagsToDetails($show);
 
         return $show;
