@@ -42,7 +42,7 @@ class CategoriesController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
         $grid->column('slug', __('Slug'));
-        $grid->column('image', __('Image'))->image('/storage/admin/', 200, 200);
+        $grid->column('image', __('Image'))->image('/storage/' . config('site.image_prefix') . '/', 200, 200);
         $grid->column('created_at', __('Created at'))->display(function($time) {
             return Carbon::create($time)->format('dS M, Y h:i a');
         });
@@ -69,7 +69,7 @@ class CategoriesController extends AdminController
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
         $show->field('slug', __('Slug'));
-        $show->field('image', __('Image'))->image('/storage/admin/', 200, 200);
+        $show->field('image', __('Image'))->image('/storage/' . config('site.image_prefix') . '/', 200, 200);
         $show->field('created_at', __('Created at'))->display(function($time) {
             return Carbon::create($time)->format('dS M, Y h:i a');
         });
