@@ -4,10 +4,11 @@ namespace Lailen\OpenAdmin\Site\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OpenAdmin\Admin\Traits\Resizable;
 
 class Category extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Resizable;
 
     protected $table = 'll_categories';
 
