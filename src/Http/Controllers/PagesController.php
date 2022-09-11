@@ -44,6 +44,18 @@ class PagesController extends AdminController
             return Carbon::create($time)->format('dS M, Y h:i a');
         });
 
+        $grid->model()->orderBy('id', 'desc');
+
+
+        $grid->filter(function($filter){
+
+            // Remove the default id filter
+            $filter->disableIdFilter();
+
+            // Add a column filter
+            $filter->like('title', 'Search by Title');
+        });
+
         return $grid;
     }
 
