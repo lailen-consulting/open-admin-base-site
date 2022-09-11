@@ -24,8 +24,6 @@ Requirements:
         info('migrate phawt ngai a nih maitei');
     }
 
-- Install [CKEditor open admin extension](https://open-admin.org/docs/en/extension-ckeditor) for page editor
-
 After installing CKEditor
 
 - `composer require lailen/site`
