@@ -54,6 +54,7 @@ class PagesController extends AdminController
 
             // Add a column filter
             $filter->like('title', 'Search by Title');
+            $filter->like('content', 'Search by Content');
         });
 
         return $grid;

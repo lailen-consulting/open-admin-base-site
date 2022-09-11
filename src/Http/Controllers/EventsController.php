@@ -39,6 +39,16 @@ class EventsController extends AdminController
         });
         $grid->column('location', __('Location'));
 
+        $grid->filter(function($filter){
+
+            // Remove the default id filter
+            $filter->disableIdFilter();
+
+            // Add a column filter
+            $filter->like('title', 'Search by Title');
+            $filter->like('description', 'Search by Description');
+        });
+
         return $grid;
     }
 

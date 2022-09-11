@@ -61,6 +61,16 @@ class AlbumsController extends AdminController
             $actions->add(new AlbumPhotos());
         });
 
+        $grid->filter(function($filter){
+
+            // Remove the default id filter
+            $filter->disableIdFilter();
+
+            // Add a column filter
+            $filter->like('name', 'Search by name');
+            $filter->like('description', 'Search by description');
+        });
+
 
         return $grid;
     }
