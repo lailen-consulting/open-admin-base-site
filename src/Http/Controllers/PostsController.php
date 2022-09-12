@@ -154,6 +154,9 @@ class PostsController extends AdminController
             }
             $model = $form->model();
             $model->slug = Str::slug($form->input('title'));
+            if (Post::where('slug', $model->slug)->count()) {
+                $model->slug = $model->slug . '-' . uniqid();
+            }
 
 
             if (!isset($model->published_at)) {
