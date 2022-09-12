@@ -175,7 +175,7 @@ class MenuItemsController extends Controller
         $form->hidden('menu_id')->value($menuId);
         $form->textarea('description', 'Description');
         $form->image('image', 'Image');
-        $form->text('icon', 'Icon');
+        $form->icon('icon', 'Icon');
 
         return $form;
     }
