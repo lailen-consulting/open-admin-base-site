@@ -72,22 +72,8 @@ class PhotosController extends AdminController
      */
     protected function form()
     {
-        $albumId = request()->route('ll_album');
         $form = new Form(new Photo());
 
-        $form->text('caption', __('Caption'));
-        $form->hidden('album_id')->value($albumId);
-        $form->image('image', __('Image'))->thumbnail([
-            'small' => [250, null],
-            'medium' => [500, null],
-            'full' => [800, null],
-        ])
-        ->required()
-        ->uniqueName()
-        ->move('albums/' . $albumId . '/');
-
-        Helpers::addCategoriesAndTagsToForm($form);
-
-        return $form;
+        return Helpers::setupPhotoForm($form);
     }
 }

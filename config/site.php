@@ -2,7 +2,11 @@
 
 return [
     'image_prefix' => env('LLSITE_IMAGE_PREFIX', 'site'),
-
+    'default_image_size' => [
+        'small' => env('LLSITE_DEFAULT_THUMBNAILS_SMALL', 300),
+        'medium' => env('LLSITE_DEFAULT_THUMBNAILS_MEDIUM', 800),
+        'large' => env('LLSITE_DEFAULT_THUMBNAILS_LARGE', 1024),
+    ],
     /**
      * Post thumbnail sizes
      */

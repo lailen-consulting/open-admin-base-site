@@ -27,4 +27,41 @@ class Helpers
             })->join(', ');
         });
     }
+
+    public static function setupPhotoForm($form)
+    {
+        $form->textarea('caption', 'Caption');
+        if ($albumId = request()->input('album_id')) {
+            $form->hidden('album_id', $albumId)->value($albumId);
+        }
+        $form->image('image', __('Image'))
+            ->thumbnailFunction('small', function ($image) {
+                $image->resize(config('site.default_image_size.small'), null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                return $image;
+            })
+            ->thumbnailFunction('medium', function ($image) {
+                $image->resize(config('site.default_image_size.medium'), null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                return $image;
+            })
+            ->thumbnailFunction('large', function ($image) {
+                $image->resize(config('site.default_image_size.large'), null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                return $image;
+            })
+            ->required()
+            ->move('gallery-images')
+            ->uniqueName();
+
+        Helpers::addCategoriesAndTagsToForm($form);
+
+        return $form;
+    }
 }

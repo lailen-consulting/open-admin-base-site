@@ -29,7 +29,7 @@ Route::resource('ll_categories', CategoriesController::class);
 Route::resource('ll_tags', TagsController::class);
 
 Route::resource('ll_albums', AlbumsController::class);
-Route::resource('ll_albums.photos', PhotosController::class);
+Route::resource('ll_photos', PhotosController::class);
 
 Route::resource('ll_configs', ConfigsController::class);
 Route::get('ll_settings', [SettingsController::class, 'index']);
