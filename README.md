@@ -18,11 +18,14 @@ Requirements:
 
 - AppServiceProvider
 
--   try {
+```
+    use Lailen\OpenAdmin\Site\Models\Config;
+    try {
         Config::loadAllSettings();
     } catch (\Throwable $th) {
         info('migrate phawt ngai a nih maitei');
     }
+```
 
 After installing CKEditor
 
