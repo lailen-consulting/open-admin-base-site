@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Lailen\OpenAdmin\Site\Http\Controllers\AlbumsController;
+use Lailen\OpenAdmin\Site\Http\Controllers\AttachmentsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\ConfigsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\MenuItemsController;
 use Lailen\OpenAdmin\Site\Http\Controllers\MenusController;
@@ -38,3 +39,5 @@ Route::post('ll_settings', [SettingsController::class, 'updateSettings']);
 Route::resource('ll_videos', VideosController::class);
 
 Route::resource('ll_events', EventsController::class);
+
+Route::resource('ll_attachments', AttachmentsController::class);

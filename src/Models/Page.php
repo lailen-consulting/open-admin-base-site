@@ -4,9 +4,12 @@ namespace Lailen\OpenAdmin\Site\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use OpenAdmin\Admin\Auth\Database\Administrator;
+use \OpenAdmin\Admin\Traits\Resizable;
 
 class Page extends Model
 {
+    use Resizable;
+
     protected $table = 'll_pages';
 
     protected $casts = [
@@ -26,5 +29,10 @@ class Page extends Model
     public function categories()
     {
         return $this->morphToMany(Category::class, 'categorizable');
+    }
+
+    public function attachments()
+    {
+        return $this->morphMany(Attachment::class, 'attachable');
     }
 }

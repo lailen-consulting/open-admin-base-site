@@ -14,6 +14,7 @@ use Lailen\OpenAdmin\Site\Models\Post;
 use Lailen\OpenAdmin\Site\Models\Category;
 use Lailen\OpenAdmin\Site\Models\Tag;
 use OpenAdmin\Admin\Auth\Database\Administrator;
+use OpenAdmin\Admin\Form\NestedForm;
 
 class PostsController extends AdminController
 {
@@ -85,6 +86,13 @@ class PostsController extends AdminController
             return Carbon::create($time)->format('dS M, Y h:i a');
         });
 
+        $show->attachments('Attachments', function ($attachments) {
+            $attachments->resource('/admin/ll_attachments');
+
+            $attachments->id();
+            $attachments->location()->downloadable('/storage/site');
+        });
+
         Helpers::addCategoriesAndTagsToDetails($show);
 
         return $show;
@@ -134,6 +142,11 @@ class PostsController extends AdminController
         Helpers::addCategoriesAndTagsToForm($form);
 
         $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
+
+        $form->morphMany('attachments', 'Attachments', function (NestedForm $subForm) {
+            $subForm->text('title', 'Name');
+            $subForm->file('location', 'Select File')->required()->move('post-attachments');
+        });
 
         $form->saving(function (Form $form){
             if (!isset($form->user_id)) {

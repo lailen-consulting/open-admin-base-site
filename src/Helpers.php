@@ -64,4 +64,16 @@ class Helpers
 
         return $form;
     }
+
+    public static function setupAttachmentForm($form)
+    {
+        if (($attachableId = request()->input('attachable_id')) && ($attachableType = request()->input('attachable_type'))) {
+            $form->hidden('attachable_id')->value($attachableId);
+            $form->hidden('attachable_type')->value($attachableType);
+        }
+        $form->text('file_name', 'Name');
+        $form->file('location', 'Select File')->required()->move('post-attachments');
+
+        return $form;
+    }
 }

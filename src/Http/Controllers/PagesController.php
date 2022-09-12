@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Lailen\OpenAdmin\Site\Helpers;
 use OpenAdmin\Admin\Auth\Database\Administrator;
+use OpenAdmin\Admin\Form\NestedForm;
 
 class PagesController extends AdminController
 {
@@ -88,6 +89,15 @@ class PagesController extends AdminController
             return Carbon::create($time)->format('dS M, Y h:i a');
         });
 
+        $show->attachments('Attachments', function ($attachments) {
+            $attachments->resource('/admin/ll_attachments');
+
+            $attachments->id();
+            $attachments->location()->downloadable('/storage/site');
+            $attachments->title();
+            $attachments->type();
+        });
+
         Helpers::addCategoriesAndTagsToDetails($show);
 
         return $show;
@@ -105,28 +115,25 @@ class PagesController extends AdminController
         $form->text('title', __('Title'))->required();
         $form->textarea('excerpt', __('Excerpt'));
         $form->ckeditor('content', __('Content'))->rules('required', ['required' => 'Content is required']);
-        $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
-        $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));
 
-        Helpers::addCategoriesAndTagsToForm($form);
 
-        $form->image('image', __('Image'))
+        $form->image('image', __('Page Image'))
             ->thumbnailFunction('small', function ($image) {
-                $image->resize(config('site.posts.thumbnails.small'), null, function ($constraint) {
+                $image->resize(config('site.default_image_size.small'), null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
                 return $image;
             })
             ->thumbnailFunction('medium', function ($image) {
-                $image->resize(config('site.posts.thumbnails.medium'), null, function ($constraint) {
+                $image->resize(config('site.default_image_size.medium'), null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
                 return $image;
             })
             ->thumbnailFunction('large', function ($image) {
-                $image->resize(config('site.posts.thumbnails.large'), null, function ($constraint) {
+                $image->resize(config('site.default_image_size.large'), null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
@@ -134,6 +141,16 @@ class PagesController extends AdminController
             })
             ->uniqueName()
             ->move('page-images');
+
+        $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
+        $form->select('user_id', __("Author"))->options(Administrator::all()->pluck('name', 'id'));
+
+        Helpers::addCategoriesAndTagsToForm($form);
+
+        $form->morphMany('attachments', 'Attachments', function (NestedForm $subForm) {
+            $subForm->text('title', 'Name');
+            $subForm->file('location', 'Select File')->required()->move('page-attachments');
+        });
 
         $form->saving(function (Form $form){
             if (!isset($form->user_id)) {
@@ -143,6 +160,7 @@ class PagesController extends AdminController
             $model = $form->model();
             $model->slug = Str::slug($form->input('title'));
         });
+
 
         return $form;
     }
