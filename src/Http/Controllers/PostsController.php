@@ -154,7 +154,8 @@ class PostsController extends AdminController
             }
             $model = $form->model();
             $model->slug = Str::slug($form->input('title'));
-            if (Post::where('slug', $model->slug)->count()) {
+            $existingCount = Post::where('slug', $model->slug)->count();
+            if ($existingCount && !($existingCount == 1 && Post::where('slug', $model->slug)->first()->id == $model->id)) {
                 $model->slug = $model->slug . '-' . uniqid();
             }
 
