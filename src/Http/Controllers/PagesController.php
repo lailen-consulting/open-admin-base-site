@@ -114,7 +114,26 @@ class PagesController extends AdminController
 
         $form->text('title', __('Title'))->required();
         $form->textarea('excerpt', __('Excerpt'));
-        $form->ckeditor('content', __('Content'))->rules('required', ['required' => 'Content is required']);
+
+        $form->ckeditor('content', __('Content'))->options([
+            'extraPlugins' => ['justify'],
+            'toolbarGroups' => [
+                [ 'name' => 'clipboard',   'groups' => [ 'clipboard', 'undo' ] ],
+                // [ 'name' => 'editing',     'groups' => [ 'find', 'selection', 'spellchecker' ] ],
+                [ 'name' => 'links' ],
+                [ 'name' => 'insert' ],
+                [ 'name' => 'forms' ],
+                [ 'name' => 'tools' ],
+                [ 'name' => 'document',	   'groups' => [ 'mode', 'document', 'doctools' ] ],
+                [ 'name' => 'others' ],
+                '/',
+                [ 'name' => 'basicstyles', 'groups' => [ 'basicstyles', 'cleanup' ] ],
+                [ 'name' => 'paragraph',   'groups' => [ 'align', 'list', 'indent', 'blocks', 'bidi' ] ],
+                [ 'name' => 'styles' ],
+                [ 'name' => 'colors' ],
+                [ 'name' => 'about' ]
+            ],
+        ])->required();
 
 
         $form->image('image', __('Page Image'))

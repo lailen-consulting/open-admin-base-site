@@ -110,7 +110,26 @@ class PostsController extends AdminController
         $form->text('title', __('Title'))->required();
         // $form->text('slug', __('Slug'));
         $form->textarea('excerpt', __('Excerpt'))->required();
-        $form->ckeditor('content', __('Content'))->required();
+        
+        $form->ckeditor('content', __('Content'))->options([
+            'extraPlugins' => ['justify'],
+            'toolbarGroups' => [
+                [ 'name' => 'clipboard',   'groups' => [ 'clipboard', 'undo' ] ],
+                // [ 'name' => 'editing',     'groups' => [ 'find', 'selection', 'spellchecker' ] ],
+                [ 'name' => 'links' ],
+                [ 'name' => 'insert' ],
+                [ 'name' => 'forms' ],
+                [ 'name' => 'tools' ],
+                [ 'name' => 'document',	   'groups' => [ 'mode', 'document', 'doctools' ] ],
+                [ 'name' => 'others' ],
+                '/',
+                [ 'name' => 'basicstyles', 'groups' => [ 'basicstyles', 'cleanup' ] ],
+                [ 'name' => 'paragraph',   'groups' => [ 'align', 'list', 'indent', 'blocks', 'bidi' ] ],
+                [ 'name' => 'styles' ],
+                [ 'name' => 'colors' ],
+                [ 'name' => 'about' ]
+            ],
+        ])->required();
 
         $form->image('image', __('Image'))
             ->thumbnailFunction('small', function ($image) {
@@ -158,7 +177,6 @@ class PostsController extends AdminController
             if ($existingCount && !($existingCount == 1 && Post::where('slug', $model->slug)->first()->id == $model->id)) {
                 $model->slug = $model->slug . '-' . uniqid();
             }
-
 
             if (!isset($model->published_at)) {
                 $model->published_at = now();
